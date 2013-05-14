@@ -20,10 +20,12 @@ Or install it yourself as:
 
 my_message = status_message.new "I love sad_panda, and I will love it even more when it is finished."
 
-my_message.emotion     <-- ["anger", "disgust", "joy", "surprise", "fear", "sadness"] -->
+#"anger", "disgust", "joy", "surprise", "fear", "sadness"
+my_message.emotion     
 => "joy"
 
-my_message.polarity    <-- ranges from -2 to 2 -->
+#ranges from -2 to 2
+my_message.polarity     
 => 2
 
 ## Contributing
