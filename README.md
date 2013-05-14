@@ -1,6 +1,6 @@
 # SadPanda
 
-TODO: Write a gem description
+sad_panda is a gem currently-in-progress with tools for sentiment analysis ultimately including bayesian classifiers for positivity/negativity and emotion classification.
 
 ## Installation
 
@@ -18,7 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+my_message = status_message.new "I love sad_panda, and I will love it even more when it is finished."
+
+my_message.emotion     <-- ["anger", "disgust", "joy", "surprise", "fear", "sadness"] -->
+=> "joy"
+
+my_message.polarity    <-- ranges from -2 to 2 -->
+=> 2
 
 ## Contributing
 
