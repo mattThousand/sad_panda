@@ -20,11 +20,9 @@ Or install it yourself as:
 
 my_message = status_message.new "I love sad_panda, and I will love it even more when it is finished."
 
-#"anger", "disgust", "joy", "surprise", "fear", "sadness"
 my_message.emotion     
 => "joy"
 
-#ranges from -2 to 2
 my_message.polarity     
 => 2
 
