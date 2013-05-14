@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'classify_emotion/version'
+require 'sad_panda/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "classify_emotion"
-  spec.version       = ClassifyEmotion::VERSION
+  spec.name          = "sad_panda"
+  spec.version       = SadPanda::VERSION
   spec.authors       = ["Matt Buckley"]
   spec.email         = ["matt.d.buckley1212@gmail.com"]
   spec.description   = %q{TODO: Write a gem description}
