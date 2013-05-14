@@ -16,6 +16,7 @@ module SadPanda
 			@term_frequency_hash = term_frequency_hash
 			@emotion_score = emotion_score
 			@verbose = verbose
+			@polarity_score = polarity_score
 		end
 
 		def get_term_emotion_hash
@@ -70,30 +71,39 @@ module SadPanda
 			term_frequency_hash = create_term_frequency_hash
 			fo = File.open("emotions/subjectivity.csv","r")
 			lines = fo.read.split("\r")
-			lines = lines[0].split("\n")
 			fo.close
 			lines.each do |l|
-				word,polarity = l.split(",")
-				@polarities[polarity] ||= []
-				@polarities[polarity] << word
+				word,strength,polarity = l.split(",")
+				if strength == "strongsubj"
+					strength = 1
+				else
+					strength = 2	
+				end
+				if polarity == "positive"
+					polarity = 1
+				else
+					polarity = -1
+				end
+				@polarities[word] ||= 0
+				@polarities[word] = polarity*strength
 			end
 			@polarities
 		end
 
 		def get_polarity_score_from_words polarity_hash,word_frequency_hash
 			word_frequency_hash.each do |key,value|
-				polarities_hash.keys.each do |k|
-					if polarities_hash[k].include?(key)
+				polarity_hash.keys.each do |k|
+					if k.include?(key)
 						@polarity_score[k] ||= 0
-						@polarity_score[k] += value
+						@polarity_score[k] += polarity_hash[k]*value
 					end
 				end
 			end
-			if algorithm == "bayes"
-				@polarity_score.keys.each do |key|
-					@polarity_score[key] = Math.log(@prior/@polarity_score[key]).abs
-				end
-			end
+			# if algorithm == "bayes"
+			# 	@polarity_score.keys.each do |key|
+			# 		@polarity_score[key] = Math.log(@prior/@polarity_score[key]).abs
+			# 	end
+			# end
 			if @verbose
 				@polarity_score.keys.each do |key|
 					puts "POLARITY: "+key
@@ -105,7 +115,7 @@ module SadPanda
 					puts "hrm...  You are difficult to read. Enter something more emotional please..."
 					exit
 				else
-					@polarity_score.max_by{|k,v| v}[0]
+					@polarity_score.max_by{|k,v| v}[1]
 				end
 		end
 
