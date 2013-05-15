@@ -1,3 +1,5 @@
+require 'lingua/stemmer'
+
 module SadPanda
 
 	class StatusMessage
@@ -5,11 +7,11 @@ module SadPanda
 		attr_accessor :emotion_word_frequency, :emotion_score, :term_frequency_hash, :emotions, :polarities, :polarity_score, :polarity_word_frequency
 		attr_reader :algorithm, :prior, :stemmer
 
-		def initialize message = self, algorithm="bayes", prior=1.0, stemmer = Lingua::Stemmer.new(:language => "en"), emotion_word_frequency={}, emotions = {}, term_frequency_hash = {}, emotion_score={},polarities={}, polarity_word_frequency={}, polarity_score={}, verbose=false
+		def initialize message, algorithm="bayes", prior=1.0, emotion_word_frequency={}, emotions = {}, term_frequency_hash = {}, emotion_score={},polarities={}, polarity_word_frequency={}, polarity_score={}, verbose=false
 			@message = message
 			@algorithm = algorithm
 			@prior = prior
-			@stemmer = stemmer
+			@stemmer = Lingua::Stemmer.new(:language => "en")
 			@emotion_word_frequency = emotion_word_frequency
 			@emotions = emotions
 			@polarities = polarities
@@ -21,7 +23,7 @@ module SadPanda
 
 		def get_term_emotion_hash
 			term_frequency_hash = create_term_frequency_hash
-			fo = File.open("emotions/emotions.csv","r")
+			fo = File.open("lib/sad_panda/emotions/emotions.csv","r")
 			lines = fo.read.split("\r")
 			lines = lines[0].split("\n")
 			fo.close
@@ -69,7 +71,7 @@ module SadPanda
 
 		def get_term_polarity_hash
 			term_frequency_hash = create_term_frequency_hash
-			fo = File.open("emotions/subjectivity.csv","r")
+			fo = File.open("lib/sad_panda/emotions/subjectivity.csv","r")
 			lines = fo.read.split("\r")
 			fo.close
 			lines.each do |l|

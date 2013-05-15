@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = SadPanda::VERSION
   spec.authors       = ["Matt Buckley"]
   spec.email         = ["matt.d.buckley1212@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{sad_panda is a gem with tools for sentiment analysis ultimately including bayesian classifiers for positivity/negativity and emotion classification.}
+  spec.summary       = %q{sad_panda is a gem with tools for sentiment analysis ultimately including bayesian classifiers for positivity/negativity and emotion classification.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
