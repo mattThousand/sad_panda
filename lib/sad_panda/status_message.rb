@@ -97,7 +97,7 @@ module SadPanda
 				polarity_hash.keys.each do |k|
 					if k.include?(key)
 						@polarity_score[k] ||= 0
-						@polarity_score[k] += polarity_hash[k]*value
+						@polarity_score[k] += (polarity_hash[k].to_f*value.to_f)/word_frequency_hash.length
 					end
 				end
 			end
