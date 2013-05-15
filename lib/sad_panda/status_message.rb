@@ -5,12 +5,10 @@ module SadPanda
 	class StatusMessage
 
 		attr_accessor :emotion_word_frequency, :emotion_score, :term_frequency_hash, :emotions, :polarities, :polarity_score, :polarity_word_frequency
-		attr_reader :algorithm, :prior, :stemmer
+		attr_reader :stemmer
 
-		def initialize message, algorithm="bayes", prior=1.0, emotion_word_frequency={}, emotions = {}, term_frequency_hash = {}, emotion_score={},polarities={}, polarity_word_frequency={}, polarity_score={}, verbose=false
+		def initialize message, emotion_word_frequency={}, emotions = {}, term_frequency_hash = {}, emotion_score={},polarities={}, polarity_word_frequency={}, polarity_score={}, verbose=false
 			@message = message
-			@algorithm = algorithm
-			@prior = prior
 			@stemmer = Lingua::Stemmer.new(:language => "en")
 			@emotion_word_frequency = emotion_word_frequency
 			@emotions = emotions
@@ -42,11 +40,6 @@ module SadPanda
 						@emotion_score[k] ||= 0
 						@emotion_score[k] += value
 					end
-				end
-			end
-			if algorithm == "bayes"
-				@emotion_score.keys.each do |key|
-					@emotion_score[key] = Math.log(@prior/@emotion_score[key]).abs
 				end
 			end
 			if @verbose
@@ -101,11 +94,6 @@ module SadPanda
 					end
 				end
 			end
-			# if algorithm == "bayes"
-			# 	@polarity_score.keys.each do |key|
-			# 		@polarity_score[key] = Math.log(@prior/@polarity_score[key]).abs
-			# 	end
-			# end
 			if @verbose
 				@polarity_score.keys.each do |key|
 					puts "POLARITY: "+key
