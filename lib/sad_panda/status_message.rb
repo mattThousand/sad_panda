@@ -13,23 +13,22 @@ module SadPanda
 			@verbose = verbose
 		end
 
-
 		# this method reads a csv file containing 'word,emotion' pairs,
 		# and groups them into a hash where the keys are the 6 available 
 		# emotions ("anger", "disgust", "joy", "surprise", "fear", "sadness")
 		# and the values are the words associated with them
 		def get_term_emotion_hash
-			emotions = {}
+			@emotions = {}
 			fo = File.open("lib/sad_panda/emotions/emotions.csv","r")
 			lines = fo.read.split("\r")
 			lines = lines[0].split("\n")
 			fo.close
 			lines.each do |l|
 				word,emotion = l.split(",")
-				emotions[emotion] ||= []
-				emotions[emotion] << word
+				@emotions[emotion] ||= []
+				@emotions[emotion] << word
 			end
-			emotions
+			@emotions
 		end
 
 
@@ -98,7 +97,7 @@ module SadPanda
 			if @verbose
 				emotion_score.keys.each do |key|
 					puts "EMOTION: "+key
-					puts "SCORE: "+emotion_score[key]
+					puts "SCORE: "+emotion_score[key].to_s
 				end
 			end
 				# return an emotion_score_hash to be processed by emotion
@@ -114,14 +113,18 @@ module SadPanda
 		# this method returns the best-fit emotion for the status message
 		def emotion 
 			# get the emotion for which the emotion score value is highest
-			get_emotion_score_from_words(self.get_term_emotion_hash,self.create_term_frequency_hash_from_status_message)
+			if @emotions
+				get_emotion_score_from_words(@emotions,self.create_term_frequency_hash_from_status_message)
+			else
+				get_emotion_score_from_words(self.get_term_emotion_hash,self.create_term_frequency_hash_from_status_message)
+			end
 		end
 
 		# this method reads a csv file containing 'word,severity,positive/negative'
 		# triplits, and returns a giant hash where the keys are individual words
 		# and the values range between -2 and 2 (-2 being more negative, 2 being most positive)
 		def get_term_polarity_hash
-			polarities = {}
+			@polarities = {}
 			fo = File.open("lib/sad_panda/emotions/subjectivity.csv","r")
 			lines = fo.read.split("\r")
 			fo.close
@@ -137,10 +140,10 @@ module SadPanda
 				else
 					polarity = -1
 				end
-				polarities[word] ||= 0
-				polarities[word] = polarity*strength
+				@polarities[word] ||= 0
+				@polarities[word] = polarity*strength
 			end
-			polarities
+			@polarities
 		end
 
 		# this method gives the status method a normalized polarity 
@@ -156,24 +159,18 @@ module SadPanda
 				end
 			end
 
-			#optionally print some output to the console
-
-			if @verbose
-				polarity_score.keys.each do |key|
-					puts "POLARITY: "+key
-					puts "SCORE: "+polarity_score[key]
-				end
-			end
-
 				# return an polarity_score_hash to be processed by polarity
 
-				if polarity_score == {}
-					# polarity unreadable; return a neutral score of zero
-					score = 0
-				else
-					score = polarity_score.max_by{|k,v| v}[1]
-					polarity_score = {}
-				end
+			if polarity_score == {}
+				# polarity unreadable; return a neutral score of zero
+				score = 0
+			else
+				score = polarity_score.max_by{|k,v| v}[1]
+				polarity_score = {}
+			end
+			if @verbose
+				puts "POLARITY: "+score.to_s
+			end
 			score
 		end
 
@@ -182,7 +179,11 @@ module SadPanda
 		# message contains)
 		def polarity 
 			# get the polarity for which the polarity score value is highest
-			get_polarity_score_from_words(self.get_term_polarity_hash,self.create_term_frequency_hash_from_status_message)
+			if @polarities
+				get_polarity_score_from_words(@polarities,self.create_term_frequency_hash_from_status_message)
+			else
+				get_polarity_score_from_words(self.get_term_polarity_hash,self.create_term_frequency_hash_from_status_message)
+			end
 		end		
 
 	end
