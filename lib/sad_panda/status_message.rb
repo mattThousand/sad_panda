@@ -41,7 +41,7 @@ module SadPanda
 		# this method reads the text of the status message
 		# inputed by the user, removes common english words,
 		# strips punctuation and capitalized letters, isolates 
-		#the stem of the word, and ultimately produces a hash
+		# the stem of the word, and ultimately produces a hash
 		# where the keys are the stems of the remaining words, 
 		# and the values are their respective frequencies within 
 		# the status message
