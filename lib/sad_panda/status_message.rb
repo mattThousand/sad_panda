@@ -4,19 +4,13 @@ module SadPanda
 
 	class StatusMessage
 
-		attr_accessor :emotion_word_frequency, :emotion_score, :term_frequency_hash, :emotions, :polarities, :polarity_score
+		attr_accessor :message,:verbose
 		attr_reader :stemmer
 
 		def initialize message, verbose=false
 			@message = message
-			@stemmer = Lingua::Stemmer.new(:language => "en")
-			@emotion_word_frequency = {}
-			@emotions = {}
-			@polarities = {}
-			@term_frequency_hash = {}
-			@emotion_score = {}
+			@stemmer = Lingua::Stemmer.new(:language => "en") 
 			@verbose = verbose
-			@polarity_score = {}
 		end
 
 
@@ -25,16 +19,17 @@ module SadPanda
 		# emotions ("anger", "disgust", "joy", "surprise", "fear", "sadness")
 		# and the values are the words associated with them
 		def get_term_emotion_hash
+			emotions = {}
 			fo = File.open("lib/sad_panda/emotions/emotions.csv","r")
 			lines = fo.read.split("\r")
 			lines = lines[0].split("\n")
 			fo.close
 			lines.each do |l|
 				word,emotion = l.split(",")
-				@emotions[emotion] ||= []
-				@emotions[emotion] << word
+				emotions[emotion] ||= []
+				emotions[emotion] << word
 			end
-			@emotions
+			emotions
 		end
 
 
@@ -60,25 +55,26 @@ module SadPanda
 				if stopwords.include?(word)
 					words = words-[word]
 				end
-			end
+			endweazw4ezaqw3exsfwe
 
 			#get word stems
 			word_stems = get_word_stems words
 
 			#create term_frequency_hash
 			word_stems.each do |stem|
-				@term_frequency_hash[stem] = word_stems.count(stem)
+				term_frequency_hash ||= {}
+				term_frequency_hash[stem] = word_stems.count(stem)
 			end
 
 			#return term frequency matrix
-			@term_frequency_hash
+			term_frequency_hash
 		end
 
 		# this method takes an array of words an returns an array of word stems
 		def get_word_stems words
 			output = []
 			words.each do |word|
-				output << @stemmer.stem(word)
+				output << stemmer.stem(word)
 			end
 			output
 		end
@@ -88,26 +84,27 @@ module SadPanda
 		# for each possble emotion, and returns the emotion with the highest
 		# "score"
 		def get_emotion_score_from_words emotions_hash,term_frequency_hash
+			emotion_score = {}
 			term_frequency_hash.each do |key,value|
 				emotions_hash.keys.each do |k|
 					if emotions_hash[k].include?(key)
-						@emotion_score[k] ||= 0
-						@emotion_score[k] += value
+						emotion_score[k] ||= 0
+						emotion_score[k] += value
 					end
 				end
 			end
 			if @verbose
-				@emotion_score.keys.each do |key|
+				emotion_score.keys.each do |key|
 					puts "EMOTION: "+key
-					puts "SCORE: "+@emotion_score[key]
+					puts "SCORE: "+emotion_score[key]
 				end
 			end
 				# return an emotion_score_hash to be processed by emotion
 				## 0 if unable to detect emotion
-				if @emotion_score == {}
+				if emotion_score == {}
 					return "Uncertain"
 				else
-					score = @emotion_score.max_by{|k,v| v}[0]
+					score = emotion_score.max_by{|k,v| v}[0]
 				end
 				score
 		end
@@ -122,6 +119,7 @@ module SadPanda
 		# triplits, and returns a giant hash where the keys are individual words
 		# and the values range between -2 and 2 (-2 being more negative, 2 being most positive)
 		def get_term_polarity_hash
+			polarities = {}
 			fo = File.open("lib/sad_panda/emotions/subjectivity.csv","r")
 			lines = fo.read.split("\r")
 			fo.close
@@ -137,20 +135,21 @@ module SadPanda
 				else
 					polarity = -1
 				end
-				@polarities[word] ||= 0
-				@polarities[word] = polarity*strength
+				polarities[word] ||= 0
+				polarities[word] = polarity*strength
 			end
-			@polarities
+			polarities
 		end
 
 		# this method gives the status method a normalized polarity 
 		# value based on the words it contains
 		def get_polarity_score_from_words polarity_hash,term_frequency_hash
+			polarity_score = {}
 			term_frequency_hash.each do |key,value|
 				polarity_hash.keys.each do |k|
 					if k.include?(key)
-						@polarity_score[k] ||= 0
-						@polarity_score[k] += (polarity_hash[k].to_f*value.to_f)/term_frequency_hash.length
+						polarity_score[k] ||= 0
+						polarity_score[k] += (polarity_hash[k].to_f*value.to_f)/term_frequency_hash.length
 					end
 				end
 			end
@@ -166,12 +165,12 @@ module SadPanda
 
 				# return an polarity_score_hash to be processed by polarity
 
-				if @polarity_score == {}
+				if polarity_score == {}
 					# polarity unreadable; return a neutral score of zero
 					score = 0
 				else
-					score = @polarity_score.max_by{|k,v| v}[1]
-					@polarity_score = {}
+					score = polarity_score.max_by{|k,v| v}[1]
+					polarity_score = {}
 				end
 			score
 		end
