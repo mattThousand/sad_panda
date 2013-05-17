@@ -193,9 +193,9 @@ module SadPanda
 				expect(status_message.emotion.class).to eql(String)
 			end
 
-			context "when status_message == 'I am paralyzed by happinesss' " do
+			context "when status_message == 'I am happy' " do
 				it "polarity is greater than zero" do
-					status_message = SadPanda::StatusMessage.new "I am paralyzed by happinesss"
+					status_message = SadPanda::StatusMessage.new "I am happy"
 					expect(status_message.polarity).to be > 0
 				end 
 			end
@@ -217,7 +217,7 @@ module SadPanda
 
 			context "when status_message == 'I am terrified' " do
 				it "polarity is less than zero" do
-					status_message = SadPanda::StatusMessage.new "I am terrified"
+					status_message = SadPanda::StatusMessage.new "I am fearful"
 					expect(status_message.polarity).to be < 0
 				end
 			end
