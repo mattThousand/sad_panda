@@ -152,14 +152,16 @@ module SadPanda
 			polarity_score = {}
 			term_frequency_hash.each do |key,value|
 				polarity_hash.keys.each do |k|
-					if k.include?(key)
-						polarity_score[k] ||= 0
-						polarity_score[k] += (polarity_hash[k].to_f*value.to_f)/term_frequency_hash.length
+					if key == k
+						polarity_score[k] = (polarity_hash[k].to_f*value.to_f)/term_frequency_hash.length
+					elsif k.include?(key) && !polarity_score[key]
+						polarity_score[key] ||= 0
+						polarity_score[key] += (polarity_hash[k].to_f*value.to_f)/term_frequency_hash.length
 					end
 				end
 			end
 
-				# return an polarity_score_hash to be processed by polarity
+				# return an polarity_score_hash to be processed by polarity method
 
 			if polarity_score == {}
 				# polarity unreadable; return a neutral score of zero
