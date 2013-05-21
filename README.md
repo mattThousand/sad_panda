@@ -30,7 +30,7 @@ Or install it yourself as:
 		=> "joy"
 
 		my_message.polarity
-		=> 0.25
+		=> 0.5
 
 ## Contributing
 
