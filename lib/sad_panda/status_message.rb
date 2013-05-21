@@ -1,3 +1,4 @@
+require 'ruby-stemmer'
 require 'lingua/stemmer'
 
 module SadPanda
