@@ -1882,8 +1882,6 @@ module SadPanda
 				# polarity unreadable; return a neutral score of zero
 				score = 5
 			else
-				puts term_frequencies
-				puts polarity_scores
 				score = polarity_scores.inject(0.0){ |sum, el| sum + el}/polarity_scores.length
 				polarity_scores = []
 			end
