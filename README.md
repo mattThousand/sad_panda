@@ -4,7 +4,7 @@ sad_panda is a gem featuring tools for sentiment analysis of natural language: p
 
 Emotion Range: "anger", "disgust", "joy", "surprise", "fear", "sadness"
 
-Polarity Range: -2 to 2
+Polarity Range: 0 to 10
 
 ## Installation
 
