@@ -1885,7 +1885,8 @@ module SadPanda
 				# polarity unreadable; return a neutral score of zero
 				score = 0
 			else
-				score = polarity_score.max_by{|k, v| v}[1]
+				polarity_values = polarity_score.values
+				score = polarity_values.inject{ |sum, el| sum.to_f + el.to_f } / polarity_values.length
 				polarity_score = {}
 			end
 			if @verbose
