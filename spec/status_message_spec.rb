@@ -4,8 +4,8 @@ module SadPanda
 	describe StatusMessage do
 
 		let(:status_message) {SadPanda::StatusMessage.new "a message"}
-		let(:emotions) {status_message.get_term_emotions}
-		let(:polarities) {status_message.get_term_polarities}
+		let(:emotions) {EmotionBank.get_term_emotions}
+		let(:polarities) {TermPolarities.get_term_polarities}
 		let(:term_frequencies) {status_message.build_term_frequencies}
 
 		describe "when initialized" do
@@ -35,30 +35,6 @@ module SadPanda
 					hash = status_message.build_term_frequencies
 					expect(hash).to_not be_empty
 				end
-			end
-		end
-
-		describe "when 'get_term_emotions method' is called" do
-			it 'returns a hash' do
-				output = status_message.get_term_emotions
-				expect(output.class).to eql(Hash)
-			end
-
-			it "is non-empty" do
-				output = status_message.get_term_emotions
-				expect(output).to_not be_empty
-			end
-		end
-
-		describe "when 'get_term_polarities' method is called" do
-			it "returns a hash" do
-				output = status_message.get_term_polarities
-				expect(output.class).to eql(Hash)
-			end
-
-			it "is non empty" do
-				output = status_message.get_term_polarities
-				expect(output).to_not be_empty
 			end
 		end
 
@@ -126,14 +102,14 @@ module SadPanda
 			end
 
 			context "when status_message == 'blarg' " do
-				it "emotion == 'Uncertain' " do
+				it "emotion == 'uncertain' " do
 					status_message = SadPanda::StatusMessage.new "blarg"
-					expect(status_message.emotion).to eql('Uncertain')
+					expect(status_message.emotion).to eql('uncertain')
 				end
 			end
 
 			context "when status_message == '  ' " do
-				it "emotion is 'Uncertain'" do
+				it "emotion is 'uncertain'" do
 					status_message = SadPanda::StatusMessage.new "  "
 				end
 			end
@@ -157,49 +133,49 @@ module SadPanda
 			context "when status_message == 'sad' " do
 				it "polarity is less than zero" do
 					status_message = SadPanda::StatusMessage.new "sad"
-					expect(status_message.polarity).to be < 0
+					expect(status_message.polarity).to be < 5
 				end
 			end
 
-			context "when status_message == 'angry' "  do
-				it "polarity is less than zero" do
-					status_message = SadPanda::StatusMessage.new "angry"
-					expect(status_message.polarity).to be < 0
+			context "when status_message == 'anger' " do
+				it "polarity is zero" do
+					status_message = SadPanda::StatusMessage.new "anger"
+					expect(status_message.polarity).to be < 5
 				end
 			end
 
 			context "when status_message == 'I am terrified' " do
-				it "polarity is less than zero" do
+				it "polarity is zero" do
 					status_message = SadPanda::StatusMessage.new "I am fearful"
-					expect(status_message.polarity).to be < 0
+					expect(status_message.polarity).to be < 5
 				end
 			end
 
 			context "when status == 'I am disgusted' " do
 				it "has a non-zero polarity value" do
 					status_message = SadPanda::StatusMessage.new "I am disgusted"
-					expect(status_message.polarity).to be < 0
+					expect(status_message.polarity).to be < 5
 				end
 			end
 
 			context "when status == 'This is surprising'" do
-				it "has a non-zero polarity value" do
+				it "has a neutral polarity value" do
 					status_message = SadPanda::StatusMessage.new "This is surprising"
-					expect(status_message.polarity).to_not eql(0)
+					expect(status_message.polarity).to eql(5)
 				end
 			end
 
 			context "when status_message == 'blarg' " do
 				it "polarity is zero" do
 					status_message = SadPanda::StatusMessage.new "blarg"
-					expect(status_message.polarity).to  eql(0)
+					expect(status_message.polarity).to eql(5)
 				end
 			end
 
 			context "when status_message == '  ' " do
 				it "polarity is zero" do
 					status_message = SadPanda::StatusMessage.new "  "
-					expect(status_message.polarity).to eql(0)
+					expect(status_message.polarity).to eql(5)
 				end
 			end
 
