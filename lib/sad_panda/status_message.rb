@@ -1,7 +1,4 @@
 require 'lingua/stemmer'
-require './lib/sad_panda/emotions/emotion_bank.rb'
-require './lib/sad_panda/emotions/term_polarities.rb'
-require './lib/sad_panda/emotions/stopwords.rb'
 
 module SadPanda
 
