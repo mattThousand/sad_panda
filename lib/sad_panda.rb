@@ -30,9 +30,7 @@ module SadPanda
 		if (@message.include?(":(") || @message.include?(":-(") || @message.include?(":[") || @message.include?(":-["))
 			@sad_que = true
 		end
-		if (@message.include?(":/") || @message.include?(":-/") || @message.include?(":\\") || @message.include?(":-\\")) && !(@message.include?("http://"))
-			@uneasy_que = true
-		end
+
 		message_text = @message.gsub(/[^a-z ]/i, '').downcase
 		message_text = message_text.gsub(/\s\s+/,' ')
 		words = message_text.split(" ")
@@ -87,8 +85,6 @@ module SadPanda
       # get clue from any emoticons present
       if (@happy_que && @sad_que)
           return "uncertain"
-      elsif @uneasy_que
-          return "uneasiness"
       elsif @happy_que
           return "joy"
       elsif @sad_que
@@ -131,8 +127,6 @@ module SadPanda
       # get clue from any emoticons present
       if (@happy_que && @sad_que)
           score = 5
-      elsif @uneasy_que
-          score = 3
       elsif @happy_que
           score = 8
       elsif @sad_que
