@@ -30,7 +30,7 @@ module SadPanda
 		if (@message.include?(":(") || @message.include?(":-(") || @message.include?(":[") || @message.include?(":-["))
 			@sad_que = true
 		end
-		if (@message.include?(":/") || @message.include?(":-/") || @message.include?(":\\") || @message.include?(":-\\"))
+		if (@message.include?(":/") || @message.include?(":-/") || @message.include?(":\\") || @message.include?(":-\\")) && !(@message.include?("http://"))
 			@uneasy_que = true
 		end
 		message_text = @message.gsub(/[^a-z ]/i, '').downcase
