@@ -24,13 +24,16 @@ Or install it yourself as:
 
 		require 'sad_panda'
 
-		my_message = SadPanda::StatusMessage.new "my lobster collection makes me happy!"
+		SadPanda.emotion("my lobster collection makes me happy!")
 
-		my_message.emotion
 		=> "joy"
 
+
+
+		SadPanda.polarity("my lobster collection makes me happy!")
 		my_message.polarity
-		=> 0.5
+
+		=> 5
 
 ## Contributing
 
