@@ -32,7 +32,8 @@ module SadPanda
 		end
 
 		message_text = @message.gsub(/[^a-z ]/i, '').downcase
-		message_text = message_text.gsub(/\s\s+/,' ')
+		message_text.gsub!(/(?=\w*h)(?=\w*t)(?=\w*t)(?=\w*p)\w*/, '')
+		message_text.gsub!(/\s\s+/,' ')
 		words = message_text.split(" ")
 
 		#filter for english stopwords
