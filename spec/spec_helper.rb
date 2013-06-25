@@ -1,5 +1,5 @@
 require 'sad_panda/version'
-require 'sad_panda/status_message'
+require './lib/sad_panda'
 require 'lingua/stemmer'
 require './lib/sad_panda/emotions/emotion_bank'
 require './lib/sad_panda/emotions/term_polarities'

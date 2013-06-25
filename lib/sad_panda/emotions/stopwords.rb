@@ -1,5 +1,5 @@
 module Stopwords
-		# common english words are hard-coded as an array - is there a more efficient way to do this?
+		# common english words
 		def self.stopwords
 			%w{i a a's able about above according accordingly across actually after
 			afterwards again against ain't all allow allows almost alone along already also although

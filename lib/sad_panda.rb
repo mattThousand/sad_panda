@@ -6,9 +6,6 @@ require 'lingua/stemmer'
 
 module SadPanda
 
-	attr_accessor :message, :verbose
-	attr_reader :stemmer
-
 	# this method reads the text of the status message
 	# inputed by the user, removes common english words,
 	# strips punctuation and capitalized letters, isolates
@@ -85,7 +82,7 @@ module SadPanda
 			# return an emotion_score_hash to be processed by emotion
       # get clue from any emoticons present
       if (@happy_que && @sad_que)
-          return "uncertain"
+          return "ambiguous"
       elsif @happy_que
           return "joy"
       elsif @sad_que
@@ -93,7 +90,7 @@ module SadPanda
       else
 			## 0 if unable to detect emotion
         if emotion_score == {}
-            return "uncertain"
+            return "ambiguous"
         else
             score = emotion_score.max_by{|k, v| v}[0]
         end
