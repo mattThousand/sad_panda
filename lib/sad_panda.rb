@@ -29,8 +29,9 @@ module SadPanda
 		end
 
 		message_text = @message.gsub(/[^a-z ]/i, '').downcase
-		message_text.gsub!(/(?=\w*h)(?=\w*t)(?=\w*t)(?=\w*p)\w*/, '')
-		message_text.gsub!(/\s\s+/,' ')
+    message_text.gsub!(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, '')
+    message_text.gsub!(/(?=\w*h)(?=\w*t)(?=\w*t)(?=\w*p)\w*/, '')
+    message_text.gsub!(/\s\s+/,' ')
 		words = message_text.split(" ")
 
 		#filter for english stopwords
@@ -79,33 +80,33 @@ module SadPanda
 				puts "SCORE: "+emotion_score[key].to_s
 			end
 		end
-			# return an emotion_score_hash to be processed by emotion
-      # get clue from any emoticons present
-      if (@happy_que && @sad_que)
+		# return an emotion_score_hash to be processed by emotion
+    # get clue from any emoticons present
+    if (@happy_que && @sad_que)
+        return "ambiguous"
+    elsif @happy_que
+        return "joy"
+    elsif @sad_que
+        return "sadness"
+    else
+		## 0 if unable to detect emotion
+      if emotion_score == {}
           return "ambiguous"
-      elsif @happy_que
-          return "joy"
-      elsif @sad_que
-          return "sadness"
       else
-			## 0 if unable to detect emotion
-        if emotion_score == {}
-            return "ambiguous"
-        else
-            score = emotion_score.max_by{|k, v| v}[0]
-        end
-        score
+          score = emotion_score.max_by{|k, v| v}[0]
       end
+      score
+    end
 	end
 
 	# this method returns the best-fit emotion for the status message
 	def self.emotion message
-          # get the emotion for which the emotion score value is highest
-          if @emotions
-              SadPanda.get_emotion_score(@emotions, SadPanda.build_term_frequencies(message))
-          else
-              SadPanda.get_emotion_score(EmotionBank.get_term_emotions, build_term_frequencies(message))
-          end
+    # get the emotion for which the emotion score value is highest
+    if @emotions
+        SadPanda.get_emotion_score(@emotions, SadPanda.build_term_frequencies(message))
+    else
+        SadPanda.get_emotion_score(EmotionBank.get_term_emotions, build_term_frequencies(message))
+    end
 	end
 
 	# this method gives the status method a normalized polarity
@@ -120,28 +121,28 @@ module SadPanda
 			end
 		end
 
-			# return an polarity_score_hash to be processed by polarity method
-			# return an emotion_score_hash to be processed by emotion
-      # get clue from any emoticons present
-      if (@happy_que && @sad_que)
-          score = 5
-      elsif @happy_que
-          score = 8
-      elsif @sad_que
-          score = 2
-      else
-				if polarity_scores == []
-					# polarity unreadable; return a neutral score of zero
-					score = 5
-				else
-					score = polarity_scores.inject(0.0){ |sum, el| sum + el}/polarity_scores.length
-					polarity_scores = []
-				end
-				if @verbose
-					puts "POLARITY: " + score.to_s
-				end
-				score
+		# return an polarity_score_hash to be processed by polarity method
+		# return an emotion_score_hash to be processed by emotion
+    # get clue from any emoticons present
+    if (@happy_que && @sad_que)
+        score = 5
+    elsif @happy_que
+        score = 8
+    elsif @sad_que
+        score = 2
+    else
+			if polarity_scores == []
+				# polarity unreadable; return a neutral score of zero
+				score = 5
+			else
+				score = polarity_scores.inject(0.0){ |sum, el| sum + el}/polarity_scores.length
+				polarity_scores = []
 			end
+			if @verbose
+				puts "POLARITY: " + score.to_s
+			end
+			score
+		end
 	end
 
 	# this method returns the polarity value for the status message
