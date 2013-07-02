@@ -25,15 +25,12 @@ Or install it yourself as:
 		require 'sad_panda'
 
 		SadPanda.emotion("my lobster collection makes me happy!")
-
 		=> "joy"
 
 
 
-		SadPanda.polarity("my lobster collection makes me happy!")
-		my_message.polarity
-
-		=> 5
+		SadPanda.polarity("I love cactuses!")
+		=> 10.0
 
 ## Contributing
 
