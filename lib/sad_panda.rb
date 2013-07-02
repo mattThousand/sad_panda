@@ -32,8 +32,8 @@ module SadPanda
   	# the status message
   	def self.build_term_frequencies(message, term_frequencies = {})
   		# clean the text of the status message
-      happy_queue = happy_queue(message)
-      sad_queue = sad_queue(message)
+      happy_emoticon = happy_emoticon(message)
+      sad_emoticon = sad_emoticon(message)
   		words = words_from_message_text(message)
   		#filter for english stopwords
   		stopwords = Stopwords.stopwords
@@ -80,11 +80,11 @@ module SadPanda
       check_emoticon_for_polarity(polarity_scores, message)
   	end
 
-    def self.happy_queue(message)
+    def self.happy_emoticon(message)
       (message.include?(":)") || message.include?(":-)") || message.include?(":]") || message.include?(":-]"))
     end
 
-    def self.sad_queue(message)
+    def self.sad_emoticon(message)
       (message.include?(":(") || message.include?(":-(") || message.include?(":[") || message.include?(":-["))
     end
 
@@ -123,39 +123,44 @@ module SadPanda
     end
 
     def self.check_emoticon_for_emotion(emotion_score, message)
-      if (happy_queue(message) && sad_queue(message))
-        return "ambiguous"
-      elsif happy_queue(message)
-        return "joy"
-      elsif sad_queue(message)
-        return "sadness"
+      if (happy_emoticon(message) && sad_emoticon(message))
+         "ambiguous"
+      elsif happy_emoticon(message)
+         "joy"
+      elsif sad_emoticon(message)
+         "sadness"
       else
+        return_emotion_score(emotion_score)
+      end
+    end
+
+    def self.return_emotion_score(emotion_score)
       ## 0 if unable to detect emotion
-        if emotion_score == {}
-          return "ambiguous"
-        else
-          score = emotion_score.max_by{|k, v| v}[0]
-        end
-        score
+      if emotion_score == {}
+        "ambiguous"
+      else
+        emotion_score.max_by{|k, v| v}[0]
       end
     end
 
     def self.check_emoticon_for_polarity(polarity_scores, message)
-      if (happy_queue(message) && sad_queue(message))
+      if (happy_emoticon(message) && sad_emoticon(message))
         score = 5
-      elsif happy_queue(message)
+      elsif happy_emoticon(message)
         score = 8
-      elsif sad_queue(message)
+      elsif sad_emoticon(message)
         score = 2
       else
-        if polarity_scores == []
-          # polarity unreadable; return a neutral score of zero
-          score = 5
-        else
-          score = polarity_scores.inject(0.0){ |sum, el| sum + el}/polarity_scores.length
-          polarity_scores = []
-        end
-        score
+        return_polarity_scores(polarity_scores)
+      end
+    end
+
+    def self.return_polarity_scores(polarity_scores)
+      if polarity_scores == []
+        # polarity unreadable; return a neutral score of 5
+        5
+      else
+        polarity_scores.inject(0.0){ |sum, el| sum + el}/polarity_scores.length
       end
     end
 

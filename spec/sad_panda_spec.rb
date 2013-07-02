@@ -11,38 +11,38 @@ describe SadPanda  do
   let(:polarity_hash) { TermPolarities.get_term_polarities }
 
   context "methods" do
-    describe "#happy_queue" do
+    describe "#happy_emoticon" do
 
       context "when true" do
         it "returns true" do
           message = ":)"
-          expect(SadPanda.happy_queue(message)).to be_true
+          expect(SadPanda.happy_emoticon(message)).to be_true
         end
       end
 
       context "when false" do
         it "returns true" do
           message = "stuff"
-          expect(SadPanda.happy_queue(message)).to be_false
+          expect(SadPanda.happy_emoticon(message)).to be_false
         end
       end
 
 
     end
 
-    describe "#sad_queue" do
+    describe "#sad_emoticon" do
 
       context "when true" do
         it "returns true" do
           message = ":("
-          expect(SadPanda.sad_queue(message)).to be_true
+          expect(SadPanda.sad_emoticon(message)).to be_true
         end
       end
 
       context "when false" do
         it "returns true" do
           message = "stuff"
-          expect(SadPanda.sad_queue(message)).to be_false
+          expect(SadPanda.sad_emoticon(message)).to be_false
         end
       end
 
