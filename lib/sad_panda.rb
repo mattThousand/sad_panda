@@ -30,10 +30,7 @@ module SadPanda
   	# where the keys are the stems of the remaining words,
   	# and the values are their respective frequencies within
   	# the status message
-  	def self.build_term_frequencies(message)
-
-  		# create empty term_frequencies
-  		term_frequencies = {}
+  	def self.build_term_frequencies(message, term_frequencies = {})
   		# clean the text of the status message
       happy_queue = happy_queue(message)
       sad_queue = sad_queue(message)
@@ -49,9 +46,8 @@ module SadPanda
     end
 
   	# this method takes an array of words an returns an array of word stems
-  	def self.get_word_stems words
+  	def self.get_word_stems(words, output=[])
   		stemmer = Lingua::Stemmer.new(:language => "en")
-  		output = []
   		words.each do |word|
   			output << stemmer.stem(word)
   		end
@@ -62,8 +58,7 @@ module SadPanda
   	# frequencies for the status message, calculates a numerical score
   	# for each possble emotion, and returns the emotion with the highest
   	# "score"
-  	def self.get_emotion_score(message, emotions, term_frequencies)
-  		emotion_score = {}
+  	def self.get_emotion_score(message, emotions, term_frequencies, emotion_score = {})
   		term_frequencies.each do |key,value|
   			set_emotions(emotions, emotion_score, key, value)
   		end
@@ -74,8 +69,7 @@ module SadPanda
 
   	# this method gives the status method a normalized polarity
   	# value based on the words it contains
-  	def self.get_polarity_score (message, polarity_hash, term_frequencies)
-  		polarity_scores = []
+  	def self.get_polarity_score (message, polarity_hash, term_frequencies, polarity_scores = [])
   		term_frequencies.each do |key, value|
   			polarity_hash.keys.each do |k|
   				if key == k
