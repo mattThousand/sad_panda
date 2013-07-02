@@ -71,11 +71,7 @@ module SadPanda
   	# value based on the words it contains
   	def self.get_polarity_score (message, polarity_hash, term_frequencies, polarity_scores = [])
   		term_frequencies.each do |key, value|
-  			polarity_hash.keys.each do |k|
-  				if key == k
-  					polarity_scores << (polarity_hash[k].to_f)
-  				end
-  			end
+        set_polarities(key, value, polarity_hash, polarity_scores)
   		end
 
   		# return an polarity_score_hash to be processed by polarity method
@@ -101,32 +97,44 @@ module SadPanda
       message.split(" ")
     end
 
-    def self.set_emotions(emotions, emotion_score, key, value)
+    def self.set_emotions(emotions, emotion_score, term, frequency)
       emotions.keys.each do |k|
-        store_emotions(emotions, emotion_score, k, key, value)
+        store_emotions(emotions, emotion_score, k, term, frequency)
       end
     end
 
-    def self.store_emotions(emotions, emotion_score, k, key, value)
-      if emotions[k].include?(key)
-        emotion_score[k] ||= 0
-        emotion_score[k] += value
+    def self.set_polarities(term, frequency, polarity_hash, polarity_scores)
+      polarity_hash.keys.each do |k|
+        store_polarities(term, k, polarity_hash, polarity_scores)
+      end
+    end
+
+    def self.store_emotions(emotions, emotion_score, emotion, term, frequency)
+      if emotions[emotion].include?(term)
+        emotion_score[emotion] ||= 0
+        emotion_score[emotion] += frequency
+      end
+    end
+
+    def self.store_polarities(term, word, polarity_hash, polarity_scores)
+      if term == word
+        polarity_scores << (polarity_hash[word].to_f)
       end
     end
 
     def self.check_emoticon_for_emotion(emotion_score, message)
       if (happy_queue(message) && sad_queue(message))
-          return "ambiguous"
+        return "ambiguous"
       elsif happy_queue(message)
-          return "joy"
+        return "joy"
       elsif sad_queue(message)
-          return "sadness"
+        return "sadness"
       else
       ## 0 if unable to detect emotion
         if emotion_score == {}
-            return "ambiguous"
+          return "ambiguous"
         else
-            score = emotion_score.max_by{|k, v| v}[0]
+          score = emotion_score.max_by{|k, v| v}[0]
         end
         score
       end
@@ -134,11 +142,11 @@ module SadPanda
 
     def self.check_emoticon_for_polarity(polarity_scores, message)
       if (happy_queue(message) && sad_queue(message))
-          score = 5
+        score = 5
       elsif happy_queue(message)
-          score = 8
+        score = 8
       elsif sad_queue(message)
-          score = 2
+        score = 2
       else
         if polarity_scores == []
           # polarity unreadable; return a neutral score of zero
