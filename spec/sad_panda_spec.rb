@@ -7,6 +7,220 @@ describe SadPanda  do
   let(:polarities) {TermPolarities.get_term_polarities}
   let(:term_frequencies) {SadPanda.build_term_frequencies("My cactus collection makes me happy.")}
 
+
+  context "methods" do
+    describe "#happy_queue" do
+
+      context "when true" do
+        it "returns true" do
+          message = ":)"
+          expect(SadPanda.happy_queue(message)).to be_true
+        end
+      end
+
+      context "when false" do
+        it "returns true" do
+          message = "stuff"
+          expect(SadPanda.happy_queue(message)).to be_false
+        end
+      end
+
+
+    end
+
+    describe "#sad_queue" do
+
+      context "when true" do
+        it "returns true" do
+          message = ":("
+          expect(SadPanda.sad_queue(message)).to be_true
+        end
+      end
+
+      context "when false" do
+        it "returns true" do
+          message = "stuff"
+          expect(SadPanda.sad_queue(message)).to be_false
+        end
+      end
+
+    end
+
+    describe "#words_from_message_text" do
+
+      it "removes urls and other gross stuff from tweet" do
+        message = "lobster hickory http://www.boston.com/business #Rails"
+
+        words = SadPanda.words_from_message_text(message)
+
+        expect(words).to eql(["lobster", "hickory", "rails"])
+      end
+
+    end
+
+    describe "#set_emotions" do
+
+      it "modifies the emotions_score array" do
+        emotions = {"joy" => "zorg" }
+        emotion_score = {}
+        term_frequencies = {"zorg" => 1}
+
+        term_frequencies.each do |key, value|
+          SadPanda.set_emotions(emotions, emotion_score, key, value)
+        end
+
+        expect((emotion_score["joy"])).to eql(1)
+      end
+
+    end
+
+    describe "#store_emotions" do
+      it "stores emotions in emotion_score hash" do
+
+        emotions = {"joy" => "zorg" }
+        emotion_score = {}
+        key,value = "zorg", 1
+
+        emotions.keys.each do |k|
+          SadPanda.store_emotions(emotions, emotion_score, k, key, value)
+        end
+
+        expect(emotion_score["joy"]).to eql(1)
+
+      end
+
+    end
+
+    describe "#create_term_frequencies" do
+
+      it "populates a word-stem frequency hash" do
+        words = ["yo", "stuff"]
+        term_frequencies = {}
+        word_stems = SadPanda.get_word_stems(words)
+        term_frequencies = SadPanda.create_term_frequencies(word_stems, term_frequencies)
+
+        expect(term_frequencies).to eql({"yo"=>1, "stuff"=>1})
+      end
+
+    end
+
+    describe "#check_emoticon_for_emotion" do
+      context "contains happy emoticon" do
+
+        it "returns 'joy'" do
+          message = ":)"
+          emotion_score = {}
+          output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
+          expect(output).to eql("joy")
+        end
+
+      end
+
+      context "contains sad emoticon" do
+
+        it "returns 'sadness'" do
+          message = ":("
+          emotion_score = {}
+          output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
+          expect(output).to eql("sadness")
+        end
+
+      end
+
+      context "contains both a happy and a sad emoticon" do
+
+        it "returns 'ambiguous'" do
+          message = ":( :)"
+          emotion_score = {}
+          output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
+          expect(output).to eql("ambiguous")
+        end
+
+      end
+
+      context "contains no emoticons and emotion_score is not empty" do
+
+        it "returns joy" do
+          message = "no emoticons in hur"
+          emotion_score = {"joy" => 1}
+          output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
+          expect(output).to eql("joy")
+        end
+
+      end
+
+      context "contains no emoticons and emotion_score is  empty" do
+
+        it "returns joy" do
+          message = "no emoticons in hur"
+          emotion_score = {}
+          output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
+          expect(output).to eql("ambiguous")
+        end
+
+      end
+    end
+
+    describe "#check_emoticon_for_polarity" do
+      context "contains happy emoticon" do
+
+        it "returns 8" do
+          message = ":)"
+          polarity_scores = [2.0,3.0]
+          output = SadPanda.check_emoticon_for_polarity(polarity_scores, message)
+          expect(output).to eql(8)
+        end
+
+      end
+
+      context "contains sad emoticon" do
+
+        it "returns 2" do
+          message = ":("
+          polarity_scores = [2.0,3.0]
+          output = SadPanda.check_emoticon_for_polarity(polarity_scores, message)
+          expect(output).to eql(2)
+        end
+
+      end
+
+      context "contains both a happy and a sad emoticon" do
+
+        it "returns 5" do
+          message = ":( :)"
+          polarity_scores = [2.0,3.0]
+          output = SadPanda.check_emoticon_for_polarity(polarity_scores, message)
+          expect(output).to eql(5)
+        end
+
+      end
+
+
+      context "contains no emoticons and polarity_scores is empty" do
+
+        it "returns joy" do
+          message = "no emoticons in hur"
+          polarity_scores = []
+          output = SadPanda.check_emoticon_for_polarity(polarity_scores, message)
+          expect(output).to eql(5)
+        end
+
+      end
+
+      context "contains no emoticons and emotion_score is not empty" do
+
+        it "returns joy" do
+          message = "no emoticons in hur"
+          polarity_scores = [8.0]
+          output = SadPanda.check_emoticon_for_polarity(polarity_scores, message)
+          expect(output).to eql(8.0)
+        end
+
+      end
+    end
+
+  end
+
   describe "when 'build_term_frequencies' method is called" do
 
     context "when status_message is an empty string" do
@@ -34,14 +248,16 @@ describe SadPanda  do
 
   describe "when 'get_emotion_score' method is called" do
     it 'returns a string' do
-      output = SadPanda.get_emotion_score emotions,term_frequencies
+      message = "this is a message!"
+      output = SadPanda.get_emotion_score(message, emotions,term_frequencies)
       expect(output.class).to eql(String)
     end
   end
 
   describe "when 'get_polarity_score' method is called" do
     it 'returns a string' do
-      output = SadPanda.get_polarity_score polarities,term_frequencies
+      message = "this is another message!"
+      output = SadPanda.get_polarity_score(message, polarities, term_frequencies)
       expect(output.class).to eql(Fixnum)
     end
   end
