@@ -6,7 +6,9 @@ describe SadPanda  do
   let(:emotions) {EmotionBank.get_term_emotions}
   let(:polarities) {TermPolarities.get_term_polarities}
   let(:term_frequencies) {SadPanda.build_term_frequencies("My cactus collection makes me happy.")}
-
+  let(:emotion_score) { {} }
+  let(:polarity_scores) { [] }
+  let(:polarity_hash) { TermPolarities.get_term_polarities }
 
   context "methods" do
     describe "#happy_queue" do
@@ -61,15 +63,23 @@ describe SadPanda  do
     describe "#set_emotions" do
 
       it "modifies the emotions_score array" do
-        emotions = {"joy" => "zorg" }
-        emotion_score = {}
-        term_frequencies = {"zorg" => 1}
 
         term_frequencies.each do |key, value|
           SadPanda.set_emotions(emotions, emotion_score, key, value)
         end
-
         expect((emotion_score["joy"])).to eql(1)
+      end
+
+    end
+
+    describe "#set_polarities" do
+
+      it "modifies the polarity_scores array" do
+        term_frequencies = {'sad' => 1}
+        term_frequencies.each do |key, value|
+          SadPanda.set_polarities(key, value, polarity_hash, polarity_scores)
+        end
+        expect(polarity_scores).to eql([0.0])
       end
 
     end
@@ -78,14 +88,37 @@ describe SadPanda  do
       it "stores emotions in emotion_score hash" do
 
         emotions = {"joy" => "zorg" }
-        emotion_score = {}
         key,value = "zorg", 1
 
         emotions.keys.each do |k|
           SadPanda.store_emotions(emotions, emotion_score, k, key, value)
         end
-
         expect(emotion_score["joy"]).to eql(1)
+      end
+
+    end
+
+    describe "#store_polarities" do
+
+      context "word in polarity_hash" do
+
+        it "adds a polarity to polarity_scores" do
+          term = "sad"
+          word = "sad"
+          SadPanda.store_polarities(term, word, polarity_hash, polarity_scores)
+          expect(polarity_scores).to eql([0.0])
+        end
+
+      end
+
+      context "word not in polarity_hash" do
+
+        it "does not add a polarity to polarity_scores" do
+          term = "sad"
+          word = "cactus"
+          SadPanda.store_polarities(term, word, polarity_hash, polarity_scores)
+          expect(polarity_scores).to eql([])
+        end
 
       end
 
@@ -109,7 +142,6 @@ describe SadPanda  do
 
         it "returns 'joy'" do
           message = ":)"
-          emotion_score = {}
           output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
           expect(output).to eql("joy")
         end
@@ -120,7 +152,6 @@ describe SadPanda  do
 
         it "returns 'sadness'" do
           message = ":("
-          emotion_score = {}
           output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
           expect(output).to eql("sadness")
         end
@@ -131,7 +162,6 @@ describe SadPanda  do
 
         it "returns 'ambiguous'" do
           message = ":( :)"
-          emotion_score = {}
           output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
           expect(output).to eql("ambiguous")
         end
@@ -153,7 +183,6 @@ describe SadPanda  do
 
         it "returns joy" do
           message = "no emoticons in hur"
-          emotion_score = {}
           output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
           expect(output).to eql("ambiguous")
         end
