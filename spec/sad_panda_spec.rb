@@ -5,7 +5,7 @@ describe SadPanda  do
 
   let(:emotions) {EmotionBank.get_term_emotions}
   let(:polarities) {TermPolarities.get_term_polarities}
-  let(:term_frequencies) {SadPanda.build_term_frequencies("My cactus collection makes me happy.")}
+  let(:term_frequencies) {SadPanda.term_frequencies("My cactus collection makes me happy.")}
   let(:emotion_score) { {} }
   let(:polarity_scores) { [] }
   let(:polarity_hash) { TermPolarities.get_term_polarities }
@@ -129,7 +129,7 @@ describe SadPanda  do
       it "populates a word-stem frequency hash" do
         words = ["yo", "stuff"]
         term_frequencies = {}
-        word_stems = SadPanda.get_word_stems(words)
+        word_stems = SadPanda.word_stems(words)
         term_frequencies = SadPanda.create_term_frequencies(word_stems, term_frequencies)
 
         expect(term_frequencies).to eql({"yo"=>1, "stuff"=>1})
@@ -250,43 +250,43 @@ describe SadPanda  do
 
   end
 
-  describe "when 'build_term_frequencies' method is called" do
+  describe "when 'term_frequencies' method is called" do
 
     context "when status_message is an empty string" do
       it "returns an empty hash" do
         empty_message = "   "
-        expect(SadPanda.build_term_frequencies(empty_message)).to be_empty
+        expect(SadPanda.term_frequencies(empty_message)).to be_empty
       end
     end
 
     context "when input is a non-recogizable word" do
       it "returns a empty hash with key == zorg and and value == 1" do
         word = "zorg"
-        expect(SadPanda.build_term_frequencies(word)).to eql({"zorg" => 1})
+        expect(SadPanda.term_frequencies(word)).to eql({"zorg" => 1})
       end
     end
 
     context "when input includes recognizable words" do
       it "returns a non-empty hash" do
-        hash = SadPanda.build_term_frequencies("I am happy")
+        hash = SadPanda.term_frequencies("I am happy")
         expect(hash).to_not be_empty
       end
     end
 
   end
 
-  describe "when 'get_emotion_score' method is called" do
+  describe "when 'emotion_score' method is called" do
     it 'returns a string' do
       message = "this is a message!"
-      output = SadPanda.get_emotion_score(message, emotions,term_frequencies)
+      output = SadPanda.emotion_score(message, emotions,term_frequencies)
       expect(output.class).to eql(String)
     end
   end
 
-  describe "when 'get_polarity_score' method is called" do
+  describe "when 'polarity_score' method is called" do
     it 'returns a string' do
       message = "this is another message!"
-      output = SadPanda.get_polarity_score(message, polarities, term_frequencies)
+      output = SadPanda.polarity_score(message, polarities, term_frequencies)
       expect(output.class).to eql(Fixnum)
     end
   end

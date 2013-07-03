@@ -9,7 +9,7 @@ module SadPanda
   # this method returns the best-fit emotion for the status message
   def self.emotion(message)
     # get the emotion for which the emotion score value is highest
-    SadPanda.get_emotion_score(message, EmotionBank.get_term_emotions, build_term_frequencies(message))
+    SadPanda.emotion_score(message, EmotionBank.get_term_emotions, term_frequencies(message))
   end
 
   # this method returns the polarity value for the status message
@@ -17,7 +17,7 @@ module SadPanda
   # message contains)
   def self.polarity(message)
     # get the polarity for which the polarity score value is highest
-    SadPanda.get_polarity_score(message, TermPolarities.get_term_polarities, SadPanda.build_term_frequencies(message))
+    SadPanda.polarity_score(message, TermPolarities.get_term_polarities, SadPanda.term_frequencies(message))
   end
 
 
@@ -30,7 +30,7 @@ module SadPanda
   	# where the keys are the stems of the remaining words,
   	# and the values are their respective frequencies within
   	# the status message
-  	def self.build_term_frequencies(message, term_frequencies = {})
+  	def self.term_frequencies(message, term_frequencies = {})
   		# clean the text of the status message
       happy_emoticon = happy_emoticon(message)
       sad_emoticon = sad_emoticon(message)
@@ -39,14 +39,14 @@ module SadPanda
   		stopwords = Stopwords.stopwords
   		words = words - stopwords
   		#get word stems
-  		word_stems = SadPanda.get_word_stems words
+  		word_stems = SadPanda.word_stems words
   		#create term_frequencies
   		#return term frequency hash
     	create_term_frequencies(word_stems, term_frequencies)
     end
 
   	# this method takes an array of words an returns an array of word stems
-  	def self.get_word_stems(words, output=[])
+  	def self.word_stems(words, output=[])
   		stemmer = Lingua::Stemmer.new(:language => "en")
   		words.each do |word|
   			output << stemmer.stem(word)
@@ -58,7 +58,7 @@ module SadPanda
   	# frequencies for the status message, calculates a numerical score
   	# for each possble emotion, and returns the emotion with the highest
   	# "score"
-  	def self.get_emotion_score(message, emotions, term_frequencies, emotion_score = {})
+  	def self.emotion_score(message, emotions, term_frequencies, emotion_score = {})
   		term_frequencies.each do |key,value|
   			set_emotions(emotions, emotion_score, key, value)
   		end
@@ -69,7 +69,7 @@ module SadPanda
 
   	# this method gives the status method a normalized polarity
   	# value based on the words it contains
-  	def self.get_polarity_score (message, polarity_hash, term_frequencies, polarity_scores = [])
+  	def self.polarity_score (message, polarity_hash, term_frequencies, polarity_scores = [])
   		term_frequencies.each do |key, value|
         set_polarities(key, value, polarity_hash, polarity_scores)
   		end
