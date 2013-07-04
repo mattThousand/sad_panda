@@ -156,7 +156,7 @@ module SadPanda
     end
 
     def self.return_polarity_scores(polarity_scores)
-      if polarity_scores == []
+      if polarity_scores.empty?
         # polarity unreadable; return a neutral score of 5
         5
       else
