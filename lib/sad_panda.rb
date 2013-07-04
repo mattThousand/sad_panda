@@ -136,7 +136,7 @@ module SadPanda
 
     def self.return_emotion_score(emotion_score)
       ## 0 if unable to detect emotion
-      if emotion_score == {}
+      if emotion_score.empty?
         "ambiguous"
       else
         emotion_score.max_by{|k, v| v}[0]
