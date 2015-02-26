@@ -2,7 +2,7 @@ require_relative "./sad_panda/version"
 require_relative './sad_panda/emotions/emotion_bank.rb'
 require_relative './sad_panda/emotions/term_polarities.rb'
 require_relative './sad_panda/emotions/stopwords.rb'
-require 'lingua/stemmer'
+require 'fast-stemmer'
 
 module SadPanda
 
@@ -47,9 +47,8 @@ module SadPanda
 
   	# this method takes an array of words an returns an array of word stems
   	def self.word_stems(words, output=[])
-  		stemmer = Lingua::Stemmer.new(:language => "en")
   		words.each do |word|
-  			output << stemmer.stem(word)
+        output << word.stem
   		end
   		output
   	end
