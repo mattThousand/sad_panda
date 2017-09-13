@@ -16,14 +16,14 @@ describe SadPanda  do
       context "when true" do
         it "returns true" do
           message = ":)"
-          expect(SadPanda.happy_emoticon(message)).to be_true
+          expect(SadPanda.happy_emoticon(message)).to be true
         end
       end
 
       context "when false" do
         it "returns true" do
           message = "stuff"
-          expect(SadPanda.happy_emoticon(message)).to be_false
+          expect(SadPanda.happy_emoticon(message)).to be false
         end
       end
 
@@ -35,14 +35,14 @@ describe SadPanda  do
       context "when true" do
         it "returns true" do
           message = ":("
-          expect(SadPanda.sad_emoticon(message)).to be_true
+          expect(SadPanda.sad_emoticon(message)).to be true
         end
       end
 
       context "when false" do
         it "returns true" do
           message = "stuff"
-          expect(SadPanda.sad_emoticon(message)).to be_false
+          expect(SadPanda.sad_emoticon(message)).to be false
         end
       end
 
