@@ -1,4 +1,4 @@
-require_relative "./sad_panda/version"
+require_relative './sad_panda/version'
 require_relative './sad_panda/emotions/emotion_bank.rb'
 require_relative './sad_panda/emotions/term_polarities.rb'
 require_relative './sad_panda/emotions/stopwords.rb'
@@ -6,7 +6,6 @@ require 'lingua/stemmer'
 
 # SadPanda main module
 module SadPanda
-
   # this method returns the best-fit emotion for the status message
   def self.emotion(message)
     # get the emotion for which the emotion score value is highest
