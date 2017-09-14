@@ -3,9 +3,9 @@ require 'spec_helper'
 
 describe SadPanda  do
 
-  let(:emotions) {EmotionBank.get_term_emotions}
-  let(:polarities) {TermPolarities.get_term_polarities}
-  let(:term_frequencies) {SadPanda.term_frequencies("My cactus collection makes me happy.")}
+  let(:emotions) { SadPanda::EmotionBank::Emotions }
+  let(:polarities) { TermPolarities.get_term_polarities }
+  let(:term_frequencies) { SadPanda.term_frequencies("My cactus collection makes me happy.") }
   let(:emotion_score) { {} }
   let(:polarity_scores) { [] }
   let(:polarity_hash) { TermPolarities.get_term_polarities }

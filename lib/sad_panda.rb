@@ -10,7 +10,7 @@ module SadPanda
   def self.emotion(message)
     # get the emotion for which the emotion score value is highest
     SadPanda.emotion_score(message,
-                           EmotionBank.get_term_emotions,
+                           SadPanda::EmotionBank::Emotions,
                            term_frequencies(message))
   end
 
@@ -39,7 +39,7 @@ module SadPanda
     sad_emoticon = sad_emoticon(message)
     words = words_from_message_text(message)
     # filter for english stopwords
-    stopwords = Stopwords.stopwords
+    stopwords = SadPanda::Stopwords
     words = words - stopwords
     # get word stems
     word_stems = SadPanda.word_stems words

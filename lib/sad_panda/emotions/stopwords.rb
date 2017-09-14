@@ -1,7 +1,6 @@
-module Stopwords
+module SadPanda
     # common english words
-    def self.stopwords
-      %w{i a a's able about above according accordingly across actually after
+    Stopwords = %w{i a a's able about above according accordingly across actually after
       afterwards again against ain't all allow allows almost alone along already also although
       always am among amongst an and another any anybody anyhow anyone anything anyway anyways
       anywhere apart appear appreciate appropriate are aren't around as aside ask asking associated
@@ -38,5 +37,4 @@ module Stopwords
       wherein whereupon wherever whether which while whither who who's whoever whole whom whose why will willing wish
       with within without won't wonder would would wouldn't x y yes yet yo you you'd you'll you're you've your yours
       yourself yourselves z zero}
-    end
 end

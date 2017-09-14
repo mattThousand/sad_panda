@@ -1,16 +1,15 @@
 require 'spec_helper'
 
-describe EmotionBank do
+describe SadPanda::EmotionBank do
+  let(:output) { SadPanda::EmotionBank::Emotions }
 
-		let(:output) {EmotionBank.get_term_emotions}
+  describe 'EmotionBank module is called' do
+    it 'returns a hash' do
+      expect(output).to be_a Hash
+    end
 
-		describe "when EmotionBank module is called" do
-			it 'returns a hash' do
-				expect(output.class).to eql(Hash)
-			end
-
-			it "is non-empty" do
-				expect(output).to_not be_empty
-			end
-		end
+    it 'is not empty' do
+      expect(output).to_not be_empty
+    end
+  end
 end
