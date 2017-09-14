@@ -126,16 +126,16 @@ module SadPanda
   end
 
   def self.check_emoticon_for_emotion(emotion_score, message)
-    return 'ambiguous' if happy_emoticon(message) && sad_emoticon(message)
-    return 'joy' if happy_emoticon(message)
-    return 'sadness' if sad_emoticon(message)
+    return :ambiguous if happy_emoticon(message) && sad_emoticon(message)
+    return :joy if happy_emoticon(message)
+    return :sadness if sad_emoticon(message)
 
     return_emotion_score(emotion_score)
   end
 
   def self.return_emotion_score(emotion_score)
     # 0 if unable to detect emotion
-    return 'ambiguous' if emotion_score.empty?
+    return :ambiguous if emotion_score.empty?
 
     emotion_score.max_by { |value| value }[0]
   end

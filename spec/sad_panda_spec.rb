@@ -67,7 +67,7 @@ describe SadPanda  do
         term_frequencies.each do |key, value|
           SadPanda.set_emotions(emotions, emotion_score, key, value)
         end
-        expect((emotion_score["joy"])).to eql(1)
+        expect((emotion_score[:joy])).to eql(1)
       end
 
     end
@@ -140,30 +140,30 @@ describe SadPanda  do
     describe '#check_emoticon_for_emotion' do
       context 'contains happy emoticon' do
 
-        it 'returns joy' do
-          message = ":)"
+        it 'returns :joy' do
+          message = ':)'
           output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
-          expect(output).to eql("joy")
+          expect(output).to be :joy
         end
 
       end
 
       context 'contains sad emoticon' do
 
-        it 'returns sadness' do
-          message = ":("
+        it 'returns :sadness' do
+          message = ':('
           output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
-          expect(output).to eql("sadness")
+          expect(output).to be :sadness
         end
 
       end
 
       context 'contains both a happy and a sad emoticon' do
 
-        it 'returns ambiguous' do
-          message = ":( :)"
+        it 'returns :ambiguous' do
+          message = ':( :)'
           output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
-          expect(output).to eql("ambiguous")
+          expect(output).to be :ambiguous
         end
 
       end
@@ -181,10 +181,10 @@ describe SadPanda  do
 
       context 'contains no emoticons and emotion_score is  empty' do
 
-        it 'returns joy' do
+        it 'returns :ambiguous' do
           message = "no emoticons in hur"
           output = SadPanda.check_emoticon_for_emotion(emotion_score, message)
-          expect(output).to eql("ambiguous")
+          expect(output).to be :ambiguous
         end
 
       end
@@ -275,10 +275,10 @@ describe SadPanda  do
   end
 
   describe 'when #emotion_score method is called' do
-    it 'returns a string' do
-      message = "this is a message!"
+    it 'returns a symbol of the emotion detected' do
+      message = 'this is a message!'
       output = SadPanda.emotion_score(message, emotions,term_frequencies)
-      expect(output.class).to eql(String)
+      expect(output).to be_a Symbol
     end
   end
 
@@ -298,58 +298,58 @@ describe SadPanda  do
     end
 
     context 'when status_message is my lobster collection makes me happy' do
-      it 'emotion == joy'  do
-        status_message = "my lobster collection makes me happy"
-        expect(SadPanda.emotion(status_message)).to eql("joy")
+      it 'returns :joy'  do
+        status_message = 'my lobster collection makes me happy'
+        expect(SadPanda.emotion(status_message)).to be :joy
       end
     end
 
-    context 'when status_message == sad' do
-      it 'emotion == sadness' do
-        status_message = "sad"
-        expect(SadPanda.emotion(status_message)).to eql("sadness")
+    context 'when status_message is sad' do
+      it 'returns :sadness' do
+        status_message = 'sad'
+        expect(SadPanda.emotion(status_message)).to be :sadness
       end
     end
 
-    context 'when status_message == angry'  do
-      it 'emotion == anger' do
-        status_message = "angry"
-        expect(SadPanda.emotion(status_message)).to eql('anger')
+    context 'when status_message is angry' do
+      it 'returns :anger' do
+        status_message = 'angry'
+        expect(SadPanda.emotion(status_message)).to be :anger
       end
     end
 
-    context 'when status_message == I am ril afraid of cats, homie' do
-      it 'emotion == fear' do
-        status_message = "I am ril afraid of cats, homie"
-        expect(SadPanda.emotion(status_message)).to eql("fear")
+    context 'when status_message is I am ril afraid of cats, homie' do
+      it 'returns :fear' do
+        status_message = 'I am ril afraid of cats, homie'
+        expect(SadPanda.emotion(status_message)).to be :fear
       end
     end
 
-    context 'when status == I am disgusted' do
-      it 'emotion == disgust' do
-        status_message =  "I am disgusted"
-        expect(SadPanda.emotion(status_message)).to eql('disgust')
+    context 'when status_message is I am disgusted' do
+      it 'returns :disgust' do
+        status_message = 'I am disgusted'
+        expect(SadPanda.emotion(status_message)).to be :disgust
       end
     end
 
-    context 'when status == I am so surprised' do
-      it 'emotion == surprise' do
-        status_message =  "I am so surprised"
-        expect(SadPanda.emotion(status_message)).to eql('surprise')
+    context 'when status is I am so surprised' do
+      it 'returns :surprise' do
+        status_message = 'I am so surprised'
+        expect(SadPanda.emotion(status_message)).to be :surprise
       end
     end
 
-    context 'when status_message == blarg' do
-      it 'emotion == ambiguous' do
-        status_message =  "blarg"
-        expect(SadPanda.emotion(status_message)).to eql('ambiguous')
+    context 'when status_message is blarg' do
+      it 'returns ambiguous' do
+        status_message = 'blarg'
+        expect(SadPanda.emotion(status_message)).to be :ambiguous
       end
     end
 
-    context 'when status_message == empty string' do
-      it 'emotion is ambiguous' do
-        status_message =  '  '  
-        expect(SadPanda.emotion(status_message)).to eql('ambiguous')
+    context 'when status_message is an empty string' do
+      it 'returns :ambiguous' do
+        status_message = '  '
+        expect(SadPanda.emotion(status_message)).to be :ambiguous
       end
     end
 
@@ -357,9 +357,9 @@ describe SadPanda  do
 
   describe 'when emotion method is called' do
 
-    it 'returns a string' do
-      status_message="joy"
-      expect(SadPanda.emotion(status_message).class).to eql(String)
+    it 'returns a symbol' do
+      status_message = 'joy'
+      expect(SadPanda.emotion(status_message)).to be_a Symbol
     end
 
     context 'when status_message == I am happy' do
