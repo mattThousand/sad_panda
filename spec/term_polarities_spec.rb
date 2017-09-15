@@ -1,16 +1,13 @@
 require 'spec_helper'
 
-describe TermPolarities do
-	describe "when TermPolarities module is called" do
+describe SadPanda::Polarities do
+  describe 'when TermPolarities module is called' do
+    it 'returns a hash' do
+      expect(SadPanda::Polarities).to be_a Hash
+    end
 
-		let(:output) {TermPolarities.get_term_polarities}
-
-		it "returns a hash" do
-			expect(output.class).to eql(Hash)
-		end
-
-		it "is non empty" do
-			expect(output).to_not be_empty
-		end
-	end
+    it 'is non empty' do
+      expect(SadPanda::Polarities).to_not be_empty
+    end
+  end
 end

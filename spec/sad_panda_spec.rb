@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe SadPanda  do
   let(:emotions) { SadPanda::EmotionBank::Emotions }
-  let(:polarities) { TermPolarities.get_term_polarities }
+  let(:polarities) { SadPanda::Polarities }
   let(:term_frequencies) { SadPanda.term_frequencies('My cactus collection makes me happy.') }
   let(:emotion_score) { {} }
   let(:polarity_scores) { [] }
-  let(:polarity_hash) { TermPolarities.get_term_polarities }
+  let(:polarity_hash) { SadPanda::Polarities }
 
   context 'methods' do
     describe '#happy_emoticon' do
@@ -231,7 +231,7 @@ describe SadPanda  do
   describe 'when #emotion_score method is called' do
     it 'returns a symbol of the emotion detected' do
       message = 'this is a message!'
-      output = SadPanda.emotion_score(message, emotions,term_frequencies)
+      output = SadPanda.emotion_score(message, emotions, term_frequencies)
       expect(output).to be_a Symbol
     end
   end

@@ -20,7 +20,7 @@ module SadPanda
   def self.polarity(message)
     # get the polarity for which the polarity score value is highest
     SadPanda.polarity_score(message,
-                            TermPolarities.get_term_polarities,
+                            SadPanda::Polarities,
                             SadPanda.term_frequencies(message))
   end
 
@@ -102,6 +102,9 @@ module SadPanda
   end
 
   def self.set_emotions(emotions, emotion_score, term, frequency)
+    # This iterates through all the emotions.
+    # Instead just pick the emotion with term if exist in
+    # in the emotions and the store
     emotions.keys.each do |k|
       store_emotions(emotions, emotion_score, k, term, frequency)
     end
