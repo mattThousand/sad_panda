@@ -124,7 +124,7 @@ module SadPanda
   end
 
   def self.store_polarities(term, word, polarity_hash, polarity_scores)
-    polarity_scores << polarity_hash[word].to_f if term == word
+    polarity_scores << polarity_hash[word].to_f if term.to_sym == word
   end
 
   def self.check_emoticon_for_emotion(emotion_score, message)

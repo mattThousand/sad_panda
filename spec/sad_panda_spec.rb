@@ -85,9 +85,7 @@ describe SadPanda  do
     describe '#store_polarities' do
       context 'word in polarity_hash' do
         it 'adds a polarity to polarity_scores' do
-          term = 'sad'
-          word = 'sad'
-          SadPanda.store_polarities(term, word, polarity_hash, polarity_scores)
+          SadPanda.store_polarities('sad', :sad, polarity_hash, polarity_scores)
           expect(polarity_scores).to eql([0.0])
         end
       end
