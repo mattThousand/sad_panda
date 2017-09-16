@@ -1,7 +1,6 @@
-require_relative './sad_panda/version'
-require_relative './sad_panda/emotions/emotion_bank.rb'
-require_relative './sad_panda/emotions/term_polarities.rb'
-require_relative './sad_panda/emotions/stopwords.rb'
+require 'sad_panda/emotions/emotion_bank'
+require 'sad_panda/emotions/term_polarities'
+require 'sad_panda/emotions/stopwords'
 require 'lingua/stemmer'
 
 # SadPanda main module
