@@ -103,9 +103,8 @@ describe SadPanda  do
     describe '#create_term_frequencies' do
       it 'populates a word-stem frequency hash' do
         words = %w(yo stuff)
-        term_frequencies = {}
         word_stems = SadPanda.word_stems(words)
-        term_frequencies = SadPanda.create_term_frequencies(word_stems, term_frequencies)
+        term_frequencies = SadPanda.create_term_frequencies(word_stems)
 
         expect(term_frequencies).to eql({"yo"=>1, "stuff"=>1})
       end

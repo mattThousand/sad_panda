@@ -20,7 +20,7 @@ module SadPanda
     # get the polarity for which the polarity score value is highest
     SadPanda.polarity_score(message,
                             SadPanda::Polarities,
-                            SadPanda.term_frequencies(message))
+                            term_frequencies(message))
   end
 
   private
@@ -32,19 +32,18 @@ module SadPanda
   # where the keys are the stems of the remaining words,
   # and the values are their respective frequencies within
   # the status message
-  def self.term_frequencies(message, term_frequencies = {})
+  def self.term_frequencies(message)
     # clean the text of the status message
-    happy_emoticon = happy_emoticon(message)
-    sad_emoticon = sad_emoticon(message)
     words = words_from_message_text(message)
     # filter for english stopwords
-    stopwords = SadPanda::Stopwords
-    words = words - stopwords
+    
+    words = words - SadPanda::Stopwords
+    
     # get word stems
     word_stems = SadPanda.word_stems words
 
     # return term frequency hash
-    create_term_frequencies(word_stems, term_frequencies)
+    create_term_frequencies(word_stems)
   end
 
   # this method takes an array of words an returns an array of word stems
@@ -156,11 +155,10 @@ module SadPanda
     polarity_scores.inject(0.0) { |sum, el| sum + el } / polarity_scores.length
   end
 
-  def self.create_term_frequencies(word_stems, term_frequencies)
-    word_stems.each do |stem|
-      term_frequencies[stem] = word_stems.count(stem)
-    end
+  def self.create_term_frequencies(words)
+    frequencies = {}
+    words.each { |word| frequencies[word] = words.count(word) }
 
-    term_frequencies
+    frequencies
   end
 end
