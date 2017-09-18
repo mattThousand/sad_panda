@@ -10,7 +10,7 @@ describe SadPanda  do
 
   describe '#emotions' do
     it 'returns emothions with' do
-      expect(SadPanda.analyse('This is a test affright message for anxiously sadness :)')).to be :fear
+      expect(SadPanda.emotion('This is a test affright message for anxiously sadness :)')).to be :fear
     end
   end
 

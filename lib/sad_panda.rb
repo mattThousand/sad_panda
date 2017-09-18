@@ -6,19 +6,10 @@ require 'lingua/stemmer'
 
 # SadPanda main module
 module SadPanda
-  def self.analyse(message)
-    SadPanda::Emotion.new(message).call
-
-    # This will become
-    # SadPanda::Emotion.new(message).analyse
-  end
-
   # this method returns the best-fit emotion for the status message
   def self.emotion(message)
     # get the emotion for which the emotion score value is highest
-    SadPanda.emotion_score(message,
-                           SadPanda::EmotionBank::Emotions,
-                           term_frequencies(message))
+    SadPanda::Emotion.new(message).call
   end
 
   # this method returns the polarity value for the status message

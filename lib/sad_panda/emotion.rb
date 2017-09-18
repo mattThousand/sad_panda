@@ -5,6 +5,7 @@ module SadPanda
 
     def initialize(text)
       @words = words_in_text(text)
+      @scores = {}
     end
 
     def call
@@ -60,7 +61,6 @@ module SadPanda
     def score_emotions(emotion, term, frequency)
       return unless SadPanda::EmotionBank::Emotions[emotion].include?(term)
 
-      @scores ||= {}
       scores[emotion] ||= 0
       scores[emotion] += frequency
     end
@@ -80,8 +80,6 @@ module SadPanda
     end
 
     def words_in_text(text)
-      # binding.pry
-      # text.gsub!(/[^a-z ]/i, '')
       text.downcase!
       text.gsub!(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, '')
       text.gsub!(/(?=\w*h)(?=\w*t)(?=\w*t)(?=\w*p)\w*/, '')
