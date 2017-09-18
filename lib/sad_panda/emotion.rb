@@ -21,24 +21,11 @@ module SadPanda
       scores.key(scores.values.max)
     end
 
-    # Do a method missing for this
-    # def sadness
-    # end
+    def method_missing(emotion)
+      return scores[emotion] if SadPanda::EmotionBank::Emotions.keys.include? emotion
 
-    # def joy
-    # end
-
-    # def anger
-    # end
-
-    # def disgust
-    # end
-
-    # def surprise
-    # end
-
-    # def fear
-    # end
+      raise Exception.new('NoMethodError')
+    end
 
     private
 

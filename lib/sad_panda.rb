@@ -8,8 +8,10 @@ require 'lingua/stemmer'
 module SadPanda
   def self.analyse(message)
     SadPanda::Emotion.new(message).call
-  end
 
+    # This will become
+    # SadPanda::Emotion.new(message).analyse
+  end
 
   # this method returns the best-fit emotion for the status message
   def self.emotion(message)
