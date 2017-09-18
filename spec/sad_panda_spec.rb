@@ -8,6 +8,29 @@ describe SadPanda  do
   let(:polarity_scores) { [] }
   let(:polarity_hash) { SadPanda::Polarities }
 
+
+  # New Stuff
+  describe 'Emotion class' do
+    let(:object) { SadPanda::Emotion.new('This is a test affright message for anxiously sadness :)') }
+
+    it 'returns fear' do
+      expect(object.call).to be :fear
+    end
+
+    it 'return emotion values' do
+      object.call
+      expect(object.fear).to be 2
+      expect(object.anger).to be 0
+      expect(object.joy).to be 1
+      expect(object.disgust).to be 0
+      expect(object.surprise).to be 0
+      expect(object.sadness).to be 1
+      expect(object.ambiguous).to be 0
+
+      expect { object.fake_emotion }.to raise_error(NoMethodError)
+    end
+  end
+
   describe '#emotions' do
     it 'returns emothions with' do
       expect(SadPanda.emotion('This is a test affright message for anxiously sadness :)')).to be :fear

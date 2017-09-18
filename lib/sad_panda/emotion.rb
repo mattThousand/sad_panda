@@ -5,7 +5,9 @@ module SadPanda
 
     def initialize(text)
       @words = words_in_text(text)
-      @scores = {}
+      @scores = { anger: 0, disgust: 0, joy: 0,
+                  surprise: 0, fear: 0, sadness: 0,
+                  ambiguous: 0 }
     end
 
     def call
@@ -17,27 +19,28 @@ module SadPanda
 
       score_words
 
-      ambiguous_score
-
       scores.key(scores.values.max)
     end
 
     def method_missing(emotion)
-      return scores[emotion] if SadPanda::EmotionBank::Emotions.keys.include? emotion
+      return scores[emotion] || 0 if scores.keys.include? emotion
 
-      raise Exception.new('NoMethodError')
+      raise NoMethodError, 'This method is not defined'
     end
 
     private
 
     def ambiguous_score
-      scores[:ambiguous] = 1 if scores.empty?
+      unq_scores = scores.values.uniq
+      scores[:ambiguous] = 1 if unq_scores.length == 1 && unq_scores.first.zero?
     end
 
     def score_words
       word_frequencies.each do |word, frequency|
         set_emotions(word, frequency)
       end
+
+      ambiguous_score
     end
 
     def score_emoji
@@ -45,11 +48,7 @@ module SadPanda
 
       return unless emotion
 
-      if scores[emotion]
-        scores[emotion] += 1
-      else
-        scores[emotion] = 1
-      end
+      scores[emotion] += 1
     end
 
     def set_emotions(word, frequency)
@@ -61,7 +60,6 @@ module SadPanda
     def score_emotions(emotion, term, frequency)
       return unless SadPanda::EmotionBank::Emotions[emotion].include?(term)
 
-      scores[emotion] ||= 0
       scores[emotion] += frequency
     end
 
