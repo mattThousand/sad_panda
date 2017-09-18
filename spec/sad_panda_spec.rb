@@ -8,6 +8,12 @@ describe SadPanda  do
   let(:polarity_scores) { [] }
   let(:polarity_hash) { SadPanda::Polarities }
 
+  describe '#emotions' do
+    it 'returns emothions with' do
+      expect(SadPanda.analyse('This is a test affright message for anxiously sadness :)')).to be :fear
+    end
+  end
+
   context 'methods' do
     describe '#happy_emoticon' do
       context 'when true' do
