@@ -16,8 +16,6 @@ module SadPanda
 
       score_words
 
-      score_emoji
-
       ambiguous_score
 
       scores.key(scores.values.max)
@@ -64,20 +62,6 @@ module SadPanda
       else
         scores[emotion] = 1
       end
-    end
-
-    def emoji_emotion
-      return :ambiguous if happy_emoji? && sad_emoji?
-      return :joy if happy_emoji?
-      return :sadness if sad_emoji?
-    end
-
-    def happy_emoji?
-      ([':)', ':]', ':-)', ':-]'] & words).any?
-    end
-
-    def sad_emoji?
-      ([':(', ':[', ':-(', ':-['] & words).any?
     end
 
     def set_emotions(word, frequency)
