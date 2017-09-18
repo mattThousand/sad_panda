@@ -6,7 +6,7 @@ require 'sad_panda/version'
 Gem::Specification.new do |spec|
   spec.name          = "sad_panda"
   spec.version       = SadPanda::VERSION
-  spec.authors       = ["Matt Buckley"]
+  spec.authors       = ["Matt Buckley", "Edwin Rozario"]
   spec.email         = ["matt.d.buckley1212@gmail.com"]
   spec.description   = %q{sad_panda is a gem featuring tools for sentiment analysis of natural language: positivity/negativity and emotion classification.}
   spec.summary       = %q{sad_panda is a gem featuring tools for sentiment analysis of natural language: positivity/negativity and emotion classification.}
