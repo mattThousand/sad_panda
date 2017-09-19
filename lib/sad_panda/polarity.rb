@@ -13,7 +13,9 @@ module SadPanda
 
       stem_words
 
-      score_polarity(word_frequencies)
+      score_polarities_for(word_frequencies)
+
+      polarities.empty? ? 5.0 : (polarities.sum / polarities.length)
     end
 
     private
@@ -36,15 +38,13 @@ module SadPanda
       polarities << 2.0 if sad_emoticon?
     end
 
-    def score_polarity(word_frequencies)
+    def score_polarities_for(word_frequencies)
       word_frequencies.each do |word, frequency|
         polarity = SadPanda::Polarities[word.to_sym]
-        polarities << (polarity.to_f * frequency.to_f) if polarity
+        polarities << (polarity * frequency.to_f) if polarity
       end
 
       score_emoticon_polarity
-
-      polarities.sum / polarities.length
     end
 
     # Returns a Hash of frequencies of each uniq word in the text

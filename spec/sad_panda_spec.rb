@@ -295,7 +295,7 @@ describe SadPanda do
 
   describe 'when polarity method is called' do
     it 'returns a fixnum' do
-      expect(SadPanda.polarity("My cactus collection makes me happy.")).to be_a Integer
+      expect(SadPanda.polarity("My cactus collection makes me happy.")).to be_a Float
     end
 
     context 'when status_message is my lobster collection makes me happy' do
@@ -399,21 +399,21 @@ describe SadPanda do
     context 'when status is This is surprising' do
       it 'has a neutral polarity value' do
         status_message = 'This is surprising'
-        expect(SadPanda.polarity(status_message)).to eql(5)
+        expect(SadPanda.polarity(status_message)).to be 5.0
       end
     end
 
     context 'when status_message == blarg' do
       it 'polarity is zero' do
         status_message = 'blarg'
-        expect(SadPanda.polarity(status_message)).to eql(5)
+        expect(SadPanda.polarity(status_message)).to be 5.0
       end
     end
 
     context 'when status_message == empty string' do
       it 'polarity is zero' do
         status_message =  '  '
-        expect(SadPanda.polarity(status_message)).to eql(5)
+        expect(SadPanda.polarity(status_message)).to be 5.0
       end
     end
   end

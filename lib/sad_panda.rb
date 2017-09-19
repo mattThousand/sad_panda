@@ -18,9 +18,7 @@ module SadPanda
   # message contains)
   def self.polarity(text)
     # get the polarity for which the polarity score value is highest
-    SadPanda.polarity_score(text,
-                            SadPanda::Polarities,
-                            term_frequencies(text))
+    SadPanda::Polarity.new(text).call
   end
 
   private
