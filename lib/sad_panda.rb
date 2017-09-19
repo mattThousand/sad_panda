@@ -33,11 +33,6 @@ module SadPanda
     create_term_frequencies(word_stems)
   end
 
-  def self.word_stems(words)
-    stemmer = Lingua::Stemmer.new(language: 'en')
-    words.map { |word| stemmer.stem(word) }
-  end
-
   def self.emotion_score(message, emotions, term_frequencies, emotion_score = {})
     term_frequencies.each do |key, value|
       set_emotions(emotions, emotion_score, key, value)

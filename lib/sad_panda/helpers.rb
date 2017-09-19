@@ -1,10 +1,6 @@
 module SadPanda
   # Helper methods for SadPanda
   module Helpers
-    def foo
-      true
-    end
-    
     # Returns a Hash of frequencies of each uniq word in the text
     def get_frequencies_for(words)
       word_frequencies = {}
@@ -13,7 +9,7 @@ module SadPanda
     end
 
     # Converts all the words to its stem form
-    def stem_words(words)
+    def stems_for(words)
       stemmer = Lingua::Stemmer.new(language: 'en')
       words.map! { |word| stemmer.stem(word) }
     end

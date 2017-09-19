@@ -14,7 +14,7 @@ module SadPanda
 
     # Main method that initiates calculating polarity
     def call
-      words = stem_words(remove_stopwords(@words))
+      words = stems_for(remove_stopwords(@words))
 
       score_polarities_for(get_frequencies_for(words))
 

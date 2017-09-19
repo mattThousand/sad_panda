@@ -16,7 +16,7 @@ module SadPanda
 
     # Main method that initiates scoring emotions
     def call
-      words = stem_words(remove_stopwords(@words))
+      words = stems_for(remove_stopwords(@words))
       score_words(get_frequencies_for(words))
 
       scores.key(scores.values.max)
