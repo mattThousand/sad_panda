@@ -24,56 +24,32 @@ module SadPanda
 
   private
 
-  # this method reads the text of the status message
-  # inputed by the user, removes common english words,
-  # strips punctuation and capitalized letters, isolates
-  # the stem of the word, and ultimately produces a hash
-  # where the keys are the stems of the remaining words,
-  # and the values are their respective frequencies within
-  # the status message
   def self.term_frequencies(message)
-    # clean the text of the status message
     words = words_from_message_text(message)
-    # filter for english stopwords
-    
     words = words - SadPanda::Stopwords
-    
-    # get word stems
-    word_stems = SadPanda.word_stems words
 
-    # return term frequency hash
+    word_stems = SadPanda.word_stems words
     create_term_frequencies(word_stems)
   end
 
-  # this method takes an array of words an returns an array of word stems
   def self.word_stems(words)
     stemmer = Lingua::Stemmer.new(language: 'en')
     words.map { |word| stemmer.stem(word) }
   end
 
-  # this method takes an emotion-words hash and a hash containing word
-  # frequencies for the status message, calculates a numerical score
-  # for each possble emotion, and returns the emotion with the highest
-  # "score"
   def self.emotion_score(message, emotions, term_frequencies, emotion_score = {})
     term_frequencies.each do |key, value|
       set_emotions(emotions, emotion_score, key, value)
     end
-    # return an emotion_score_hash to be processed by emotion
-    # get clue from any emoticons present
+
     check_emoticon_for_emotion(emotion_score, message)
   end
 
-  # this method gives the status method a normalized polarity
-  # value based on the words it contains
   def self.polarity_score(message, polarity_hash, term_frequencies, polarity_scores = [])
     term_frequencies.each do |key, value|
       set_polarities(key, value, polarity_hash, polarity_scores)
     end
 
-    # return an polarity_score_hash to be processed by polarity method
-    # return an emotion_score_hash to be processed by emotion
-    # get clue from any emoticons present
     check_emoticon_for_polarity(polarity_scores, message)
   end
 
@@ -99,9 +75,6 @@ module SadPanda
   end
 
   def self.set_emotions(emotions, emotion_score, term, frequency)
-    # This iterates through all the emotions.
-    # Instead just pick the emotion with term if exist in
-    # in the emotions and the store
     emotions.keys.each do |k|
       store_emotions(emotions, emotion_score, k, term, frequency)
     end
