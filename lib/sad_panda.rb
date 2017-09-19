@@ -2,24 +2,25 @@ require 'sad_panda/emotions/emotion_bank'
 require 'sad_panda/emotions/term_polarities'
 require 'sad_panda/emotions/stopwords'
 require 'sad_panda/emotion'
+require 'sad_panda/polarity'
 require 'lingua/stemmer'
 
 # SadPanda main module
 module SadPanda
   # this method returns the best-fit emotion for the status message
-  def self.emotion(message)
+  def self.emotion(text)
     # get the emotion for which the emotion score value is highest
-    SadPanda::Emotion.new(message).call
+    SadPanda::Emotion.new(text).call
   end
 
   # this method returns the polarity value for the status message
   # (normalized by the number of 'polar' words that the status
   # message contains)
-  def self.polarity(message)
+  def self.polarity(text)
     # get the polarity for which the polarity score value is highest
-    SadPanda.polarity_score(message,
+    SadPanda.polarity_score(text,
                             SadPanda::Polarities,
-                            term_frequencies(message))
+                            term_frequencies(text))
   end
 
   private

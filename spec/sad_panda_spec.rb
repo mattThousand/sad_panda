@@ -34,6 +34,14 @@ describe SadPanda do
     end
   end
 
+  describe 'Polarity class' do
+    let(:object) { SadPanda::Polarity.new("I love cactuses!") }
+
+    it 'returns fear' do
+      expect(object.call).to be 10.0
+    end
+  end
+
   describe '#emotions' do
     it 'returns emothions with' do
       expect(SadPanda.emotion('This is a test affright message for anxiously sadness :)')).to be :fear
@@ -275,7 +283,7 @@ describe SadPanda do
     end
   end
 
-  # This spec dosent seem to be right 
+  # This spec dosent seem to be right
   # describe 'when #polarity_score method is called' do
   #   it 'returns a string' do
   #     message = "this is another message!"
@@ -287,7 +295,7 @@ describe SadPanda do
 
   describe 'when polarity method is called' do
     it 'returns a fixnum' do
-      expect(SadPanda.polarity("My cactus collection makes me happy.")).to be_a Fixnum
+      expect(SadPanda.polarity("My cactus collection makes me happy.")).to be_a Integer
     end
 
     context 'when status_message is my lobster collection makes me happy' do
