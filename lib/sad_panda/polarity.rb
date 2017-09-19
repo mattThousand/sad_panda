@@ -1,6 +1,10 @@
+require 'sad_panda/helpers'
+
 module SadPanda
   # Polarity calculation logic in here
   class Polarity
+    include Helpers
+
     attr_accessor :words, :polarities
 
     def initialize(text)
@@ -9,11 +13,9 @@ module SadPanda
     end
 
     def call
-      remove_stopwords
+      words = stem_words(remove_stopwords(@words))
 
-      stem_words
-
-      score_polarities_for(word_frequencies)
+      score_polarities_for(get_frequencies_for(words))
 
       polarities.empty? ? 5.0 : (polarities.sum / polarities.length)
     end
@@ -45,33 +47,6 @@ module SadPanda
       end
 
       score_emoticon_polarity
-    end
-
-    # Returns a Hash of frequencies of each uniq word in the text
-    def word_frequencies
-      word_frequencies = {}
-      words.each { |word| word_frequencies[word] = words.count(word) }
-      word_frequencies
-    end
-
-    # Converts all the words to its stem form
-    def stem_words
-      stemmer = Lingua::Stemmer.new(language: 'en')
-      words.map! { |word| stemmer.stem(word) }
-    end
-
-    # Strps the words of stop words
-    def remove_stopwords
-      @words -= SadPanda::Stopwords
-    end
-
-    # Removes all the unwated characters from the text
-    def words_in_text(text)
-      text.downcase!
-      text.gsub!(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, '')
-      text.gsub!(/(?=\w*h)(?=\w*t)(?=\w*t)(?=\w*p)\w*/, '')
-      text.gsub!(/\s\s+/, ' ')
-      text.split(' ')
     end
   end
 end

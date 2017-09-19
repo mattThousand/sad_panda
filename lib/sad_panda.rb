@@ -3,10 +3,12 @@ require 'sad_panda/emotions/term_polarities'
 require 'sad_panda/emotions/stopwords'
 require 'sad_panda/emotion'
 require 'sad_panda/polarity'
+require 'sad_panda/helpers'
 require 'lingua/stemmer'
 
 # SadPanda main module
 module SadPanda
+  include SadPanda::Helpers
   # this method returns the best-fit emotion for the status message
   def self.emotion(text)
     # get the emotion for which the emotion score value is highest

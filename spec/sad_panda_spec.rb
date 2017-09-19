@@ -6,7 +6,7 @@ describe SadPanda do
 
   let(:emotions) { SadPanda::EmotionBank::Emotions }
   let(:polarities) { SadPanda::Polarities }
-  let(:term_frequencies) { emotion.send(:word_frequencies) }
+  # let(:term_frequencies) { emotion.send(:word_frequencies) }
   # { SadPanda.term_frequencies('My cactus collection makes me happy.') }
   let(:emotion_score) { {} }
   let(:polarity_scores) { [] }
@@ -91,15 +91,15 @@ describe SadPanda do
       end
     end
 
-    describe '#set_emotions' do
-      it 'modifies the emotions_score array' do
-        term_frequencies.each do |key, value|
-          SadPanda.set_emotions(emotions, emotion_score, key, value)
-        end
+    # describe '#set_emotions' do
+    #   it 'modifies the emotions_score array' do
+    #     term_frequencies.each do |key, value|
+    #       SadPanda.set_emotions(emotions, emotion_score, key, value)
+    #     end
 
-        expect((emotion_score[:joy])).to eql(1)
-      end
-    end
+    #     expect((emotion_score[:joy])).to eql(1)
+    #   end
+    # end
 
     describe '#set_polarities' do
       it 'modifies the polarity_scores array' do
@@ -243,45 +243,45 @@ describe SadPanda do
     end
   end
 
-  describe 'when term_frequencies method is called' do
-    context 'when status_message is an empty string' do
-      it 'returns an empty hash' do
-        empty_message = '   '
-        obj = SadPanda::Emotion.new(empty_message)
-        obj.call
+  # describe 'when term_frequencies method is called' do
+  #   context 'when status_message is an empty string' do
+  #     it 'returns an empty hash' do
+  #       empty_message = '   '
+  #       obj = SadPanda::Emotion.new(empty_message)
+  #       obj.call
 
-        expect(obj.send(:word_frequencies)).to be_empty
-      end
-    end
+  #       expect(obj.send(:word_frequencies)).to be_empty
+  #     end
+  #   end
 
-    context 'when input is a non-recogizable word' do
-      it 'returns a empty hash with key == zorg and and value == 1' do
-        word = 'zorg'
-        obj = SadPanda::Emotion.new(word)
-        obj.call
+  #   context 'when input is a non-recogizable word' do
+  #     it 'returns a empty hash with key == zorg and and value == 1' do
+  #       word = 'zorg'
+  #       obj = SadPanda::Emotion.new(word)
+  #       obj.call
 
-        expect(obj.send(:word_frequencies)).to eql({ "zorg" => 1 })
-      end
-    end
+  #       expect(obj.send(:word_frequencies)).to eql({ "zorg" => 1 })
+  #     end
+  #   end
 
-    context 'when input includes recognizable words' do
-      it 'returns a non-empty hash' do
-        word = 'I am happy'
-        obj = SadPanda::Emotion.new(word)
-        obj.call
+  #   context 'when input includes recognizable words' do
+  #     it 'returns a non-empty hash' do
+  #       word = 'I am happy'
+  #       obj = SadPanda::Emotion.new(word)
+  #       obj.call
 
-        expect(obj.send(:word_frequencies)).to_not be_empty
-      end
-    end
-  end
+  #       expect(obj.send(:word_frequencies)).to_not be_empty
+  #     end
+  #   end
+  # end
 
-  describe 'when #emotion_score method is called' do
-    it 'returns a symbol of the emotion detected' do
-      message = 'this is a message!'
-      output = SadPanda.emotion_score(message, emotions, term_frequencies)
-      expect(output).to be_a Symbol
-    end
-  end
+  # describe 'when #emotion_score method is called' do
+  #   it 'returns a symbol of the emotion detected' do
+  #     message = 'this is a message!'
+  #     output = SadPanda.emotion_score(message, emotions, term_frequencies)
+  #     expect(output).to be_a Symbol
+  #   end
+  # end
 
   # This spec dosent seem to be right
   # describe 'when #polarity_score method is called' do
