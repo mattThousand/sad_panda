@@ -25,13 +25,29 @@ module SadPanda
 
     # Checks if words has a happy emoji
     def happy_emoticon?
+      # places emojies in the bank
+      # %w[:) :-) :\] :-\]].each do |emoji|
+      #   return true if words.include? emoji
+      # end
+
+      # false
+
       words.include?(':)') ||
         words.include?(':-)') ||
         words.include?(':]') || words.include?(':-]')
     end
 
+    # To count emojies
+    # 'foo bar foo :) :)'.scan(/:\)/).count
+
     # Checks if words has a sad emoji
     def sad_emoticon?
+      # %w[:( :-( :\[ :-\[].each do |emoji|
+      #   return true if words.include? emoji
+      # end
+
+      # false
+
       words.include?(':(') ||
         words.include?(':-(') ||
         words.include?(':[') || words.include?(':-[')

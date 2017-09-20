@@ -63,6 +63,18 @@ describe SadPanda do
     it 'returns 10.0' do
       expect(polarity).to eq 10.0
     end
+
+    it 'returns 8.0 for happy emoji' do
+      expect(SadPanda.polarity(':)')).to eq 8.0
+    end
+
+    it 'returns 8.0 for sad emoji' do
+      expect(SadPanda.polarity(':(')).to eq 2.0
+    end
+
+    it 'returns 5.0 for happy & sademoji' do
+      expect(SadPanda.polarity(':) :(')).to eq 5.0
+    end
   end
 
   # New Stuff
