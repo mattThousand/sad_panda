@@ -8,15 +8,15 @@ module SadPanda
     attr_accessor :words, :polarities
 
     def initialize(text)
-      @words = words_in_text(text)
+      @words = words_in(text)
       @polarities = []
     end
 
     # Main method that initiates calculating polarity
     def call
-      words = stems_for(remove_stopwords(@words))
+      words = stems_for(remove_stopwords_in(@words))
 
-      score_polarities_for(get_frequencies_for(words))
+      score_polarities_for(frequencies_for(words))
 
       polarities.empty? ? 5.0 : (polarities.sum / polarities.length)
     end
