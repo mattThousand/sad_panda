@@ -1,0 +1,33 @@
+require 'spec_helper'
+
+describe SadPanda::Helpers do
+  let(:helpers) { Class.new { extend SadPanda::Helpers } }
+
+  describe '#frequencies_for' do
+    it 'returns a hash with the frquency of each word' do
+      expect(helpers.frequencies_for(['foo', 'bar', 'quxx', 'foo'])).to eq({'foo' => 2, 'bar' => 1, 'quxx' => 1})
+    end
+  end
+
+  describe '#stems_for' do
+    it 'returns the stems of words' do
+      expect(helpers.stems_for(%w[programming amazes])).to eq %w[program amaz]
+    end
+  end
+
+  describe '#remove_stopwords_in' do
+    it 'returns the array without stop words in it' do
+      expect(helpers.remove_stopwords_in(%w[this is a cool test])).to eq %w[cool test]
+    end
+  end
+
+  describe '#words_in' do
+    it 'returns an array' do
+      expect(helpers.words_in('output array')).to be_a Array
+    end
+
+    it 'returns an array of words from the text' do
+      expect(helpers.words_in('make this an array')).to eq %w[make this an array]
+    end
+  end
+end

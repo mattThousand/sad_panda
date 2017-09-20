@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe SadPanda do
   describe '#emotion' do
+    it 'returns a Symbol result' do
+      expect(SadPanda.emotion('panda emotion respose')).to be_a Symbol
+    end
+
     context 'joy' do
       it 'returns :joy for a happy text' do
         expect(SadPanda.emotion('my lobster collection makes me happy!')).to eq :joy
@@ -20,13 +24,13 @@ describe SadPanda do
 
     context 'fear' do
       it 'returns :fear for an fearedful text' do
-        expect(SadPanda.emotion('Segmentation Fault makes me anxious')).to eq :fear
+        expect(SadPanda.emotion('I am ril afraid of cats, homie')).to eq :fear
       end
     end
 
     context 'disgust' do
       it 'returns :disgust for an text with disgust' do
-        expect(SadPanda.emotion('Its hideous to say that Ruby is fast')).to eq :disgust
+        expect(SadPanda.emotion('I am disgusted')).to eq :disgust
       end
     end
 
@@ -39,6 +43,10 @@ describe SadPanda do
     context 'ambiguous' do
       it 'returns :ambiguous for a neutral text' do
         expect(SadPanda.emotion('Python is ok')).to eq :ambiguous
+      end
+
+      it 'returns :ambiguous for an empty string' do
+        expect(SadPanda.emotion('  ')).to be :ambiguous
       end
     end
 
@@ -75,15 +83,20 @@ describe SadPanda do
     it 'returns 5.0 for happy & sademoji' do
       expect(SadPanda.polarity(':) :(')).to eq 5.0
     end
+
+    it 'returns 5.0 for empty string' do
+      expect(SadPanda.polarity(' ')).to eq 5.0
+    end
+
+    it 'returns 5.0 for a neutral' do
+      expect(SadPanda.polarity('This is surprising')).to be 5.0
+    end
   end
 
   # New Stuff
   # let(:emotion) { SadPanda::Emotion.new('My cactus collection makes me happy') }
 
-  # let(:emotions) { SadPanda::EmotionBank::Emotions }
   # let(:polarities) { SadPanda::Polarities }
-  # # let(:term_frequencies) { emotion.send(:word_frequencies) }
-  # # { SadPanda.term_frequencies('My cactus collection makes me happy.') }
   # let(:emotion_score) { {} }
   # let(:polarity_scores) { [] }
   # let(:polarity_hash) { SadPanda::Polarities }
@@ -157,16 +170,6 @@ describe SadPanda do
   #     end
   #   end
 
-  #   describe '#words_from_message_text' do
-  #     it 'removes urls and other gross stuff from tweet' do
-  #       message = 'lobster hickory http://www.boston.com/business #Rails'
-
-  #       words = SadPanda.words_from_message_text(message)
-
-  #       expect(words).to eql(["lobster", "hickory", "rails"])
-  #     end
-  #   end
-
     # describe '#set_emotions' do
     #   it 'modifies the emotions_score array' do
     #     term_frequencies.each do |key, value|
@@ -215,17 +218,6 @@ describe SadPanda do
     #       expect(polarity_scores).to eql([])
     #     end
     #   end
-    # end
-
-    # describe '#create_term_frequencies' do
-    #   it 'populates a word-stem frequency hash' do
-    #     word_stems = %w(yo stuff)
-    #     # word_stems = SadPanda::Helpers.stem_words(words)
-    #     term_frequencies = SadPanda.create_term_frequencies(word_stems)
-
-    #     expect(term_frequencies).to eql({"yo"=>1, "stuff"=>1})
-    #   end
-
     # end
 
     # describe '#check_emoticon_for_emotion' do
@@ -320,16 +312,6 @@ describe SadPanda do
   # end
 
   # describe 'when term_frequencies method is called' do
-  #   context 'when status_message is an empty string' do
-  #     it 'returns an empty hash' do
-  #       empty_message = '   '
-  #       obj = SadPanda::Emotion.new(empty_message)
-  #       obj.call
-
-  #       expect(obj.send(:word_frequencies)).to be_empty
-  #     end
-  #   end
-
   #   context 'when input is a non-recogizable word' do
   #     it 'returns a empty hash with key == zorg and and value == 1' do
   #       word = 'zorg'
@@ -359,84 +341,7 @@ describe SadPanda do
   #   end
   # end
 
-  # This spec dosent seem to be right
-  # describe 'when #polarity_score method is called' do
-  #   it 'returns a string' do
-  #     message = "this is another message!"
-  #     output = SadPanda.polarity_score(message, polarities, term_frequencies)
-
-  #     expect(output).to be_a Fixnum
-  #   end
-  # end
-
-  # describe 'when polarity method is called' do
-  #   it 'returns a fixnum' do
-  #     expect(SadPanda.polarity("My cactus collection makes me happy.")).to be_a Float
-  #   end
-
-  #   context 'when status_message is my lobster collection makes me happy' do
-  #     it 'returns :joy'  do
-  #       status_message = 'my lobster collection makes me happy'
-  #       expect(SadPanda.emotion(status_message)).to be :joy
-  #     end
-  #   end
-
-  #   context 'when status_message is sad' do
-  #     it 'returns :sadness' do
-  #       status_message = 'sad'
-  #       expect(SadPanda.emotion(status_message)).to be :sadness
-  #     end
-  #   end
-
-  #   context 'when status_message is angry' do
-  #     it 'returns :anger' do
-  #       status_message = 'angry'
-  #       expect(SadPanda.emotion(status_message)).to be :anger
-  #     end
-  #   end
-
-  #   context 'when status_message is I am ril afraid of cats, homie' do
-  #     it 'returns :fear' do
-  #       status_message = 'I am ril afraid of cats, homie'
-  #       expect(SadPanda.emotion(status_message)).to be :fear
-  #     end
-  #   end
-
-  #   context 'when status_message is I am disgusted' do
-  #     it 'returns :disgust' do
-  #       status_message = 'I am disgusted'
-  #       expect(SadPanda.emotion(status_message)).to be :disgust
-  #     end
-  #   end
-
-  #   context 'when status is I am so surprised' do
-  #     it 'returns :surprise' do
-  #       status_message = 'I am so surprised'
-  #       expect(SadPanda.emotion(status_message)).to be :surprise
-  #     end
-  #   end
-
-  #   context 'when status_message is blarg' do
-  #     it 'returns ambiguous' do
-  #       status_message = 'blarg'
-  #       expect(SadPanda.emotion(status_message)).to be :ambiguous
-  #     end
-  #   end
-
-  #   context 'when status_message is an empty string' do
-  #     it 'returns :ambiguous' do
-  #       status_message = '  '
-  #       expect(SadPanda.emotion(status_message)).to be :ambiguous
-  #     end
-  #   end
-  # end
-
   # describe 'when emotion method is called' do
-  #   it 'returns a symbol' do
-  #     status_message = 'joy'
-  #     expect(SadPanda.emotion(status_message)).to be_a Symbol
-  #   end
-
   #   context 'when status_message is I am happy' do
   #     it 'polarity is greater than zero' do
   #       status_message = 'I am happy'
@@ -472,25 +377,5 @@ describe SadPanda do
   #     end
   #   end
 
-  #   context 'when status is This is surprising' do
-  #     it 'has a neutral polarity value' do
-  #       status_message = 'This is surprising'
-  #       expect(SadPanda.polarity(status_message)).to be 5.0
-  #     end
-  #   end
-
-  #   context 'when status_message == blarg' do
-  #     it 'polarity is zero' do
-  #       status_message = 'blarg'
-  #       expect(SadPanda.polarity(status_message)).to be 5.0
-  #     end
-  #   end
-
-  #   context 'when status_message == empty string' do
-  #     it 'polarity is zero' do
-  #       status_message =  '  '
-  #       expect(SadPanda.polarity(status_message)).to be 5.0
-  #     end
-  #   end
   # end
 end
