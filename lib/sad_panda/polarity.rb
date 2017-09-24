@@ -25,7 +25,7 @@ module SadPanda
 
     # Checks if words has a happy emoji
     def happy_emoticon?
-      # places emojies in the bank
+      # place emojies in the bank
       # %w[:) :-) :\] :-\]].each do |emoji|
       #   return true if words.include? emoji
       # end

@@ -123,14 +123,6 @@ describe SadPanda do
   #   end
   # end
 
-  # describe 'Polarity class' do
-  #   let(:object) { SadPanda::Polarity.new("I love cactuses!") }
-
-  #   it 'returns fear' do
-  #     expect(object.call).to be 10.0
-  #   end
-  # end
-
   # describe '#emotions' do
   #   it 'returns emothions with' do
   #     expect(SadPanda.emotion('This is a test affright message for anxiously sadness :)')).to be :fear
