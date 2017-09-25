@@ -15,19 +15,34 @@ describe SadPanda::Emotion do
     end
   end
 
-  describe 'initialization' do
-    let(:object) { SadPanda::Emotion.new('my lobster collection makes me happy!') }
+  describe '#call' do
+    context 'when input contains words with emotions' do
+      let(:object) { SadPanda::Emotion.new('my lobster collection makes me happy!') }
 
-    context 'when call method is called' do
       it 'returns :joy' do
         expect(object.call).to eq :joy
       end
 
-      it 'has scored emotions' do
+      it 'scores emotions' do
         object.call
-        expect(object.scores).to eq(:anger => 0, :disgust => 0,:joy => 1,
+        expect(object.scores).to eq(:anger => 0, :disgust => 0, :joy => 1,
                                     :surprise => 0, :fear => 0, :sadness => 0,
                                     :ambiguous => 0)
+      end
+    end
+
+    context 'when input contains no words with emotions' do
+      let(:object) { SadPanda::Emotion.new(' ') }
+
+      it 'returns :ambiguous' do
+        expect(object.call).to eq :ambiguous
+      end
+
+      it 'does not scores emotions but ambiguous' do
+        object.call
+        expect(object.scores).to eq(:anger => 0, :disgust => 0, :joy => 0,
+                                    :surprise => 0, :fear => 0, :sadness => 0,
+                                    :ambiguous => 1)
       end
     end
   end
