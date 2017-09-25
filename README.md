@@ -24,14 +24,20 @@ Or install it yourself as:
 
 		require 'sad_panda'
 
-		SadPanda.emotion("my lobster collection makes me happy!")
-		=> "joy"
+		SadPanda.emotion('my lobster collection makes me happy!')
+		=> :joy
 
-
-
-		SadPanda.polarity("I love cactuses!")
+		SadPanda.polarity('I love cactuses!')
 		=> 10.0
 
+		sad_panda = SadPanda::Emotion.new('my lobster collection makes me happy!')
+		sad_panda.call
+		sad_pands.scores = {:anger=>0, :disgust=>0, :joy=>1, :surprise=>0, :fear=>0, :sadness=>0, :ambiguous=>0}
+
+		sad_panda.joy => 1
+		sad_panda.fear => 0
+		# same for all the other emotions
+		
 ## Contributing
 
 1. Fork it
