@@ -1,6 +1,14 @@
 module SadPanda
   # Helper methods for SadPanda
   module Helpers
+    def sad_emojies
+      [':(', ':-(', ':[', ':-[']
+    end
+
+    def happy_emojies
+      [':)', ':-)', ':]', ':-]']
+    end
+
     # Returns a Hash of frequencies of each uniq word in the text
     def frequencies_for(words)
       word_frequencies = {}
@@ -21,18 +29,29 @@ module SadPanda
 
     # Removes all the unwated characters from the text
     def words_in(text)
-      text.downcase!
-      text.tr!('!', '')
-      text.tr!('?', '')
+      # capturing all emojies
+      emojies = (sad_emojies + happy_emojies).map do |emoji|
+        text.scan(emoji)
+      end.flatten
 
-      # a.gsub!(/[^0-9A-Za-z]/, '')
-      # This is the right fix to remove all special characters
-      # But will have to refactor the emoji logic for it
+      text.downcase!
+      text.gsub!(/[^a-z ]/i, '')
 
       text.gsub!(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, '')
       text.gsub!(/(?=\w*h)(?=\w*t)(?=\w*t)(?=\w*p)\w*/, '')
       text.gsub!(/\s\s+/, ' ')
-      text.split(' ')
+
+      text.split + emojies
+    end
+
+    # Checks if words has a happy emoji
+    def happy_emoticon?(words)
+      (happy_emojies & words).any?
+    end
+
+    # Checks if words has a sad emoji
+    def sad_emoticon?(words)
+      (sad_emojies & words).any?
     end
   end
 end

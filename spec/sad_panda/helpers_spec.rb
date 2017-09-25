@@ -30,4 +30,32 @@ describe SadPanda::Helpers do
       expect(helpers.words_in('make this an array')).to eq %w[make this an array]
     end
   end
+
+  describe '#happy_emoticon?' do
+    context 'when words has a happy emoji' do
+      it 'returns true' do
+        expect(helpers.happy_emoticon?(['foo', ':)'])).to be true
+      end
+    end
+
+    context 'when words does not have a happy emoji' do
+      it 'returns false' do
+        expect(helpers.happy_emoticon?(['foo', 'bar'])).to be false
+      end
+    end
+  end
+
+  describe '#sad_emoticon?' do
+    context 'when words has a sad emoji' do
+      it 'returns true' do
+        expect(helpers.sad_emoticon?(['foo', ':('])).to be true
+      end
+    end
+
+    context 'when words does not have a sad emoji' do
+      it 'returns false' do
+        expect(helpers.sad_emoticon?(['foo', 'bar'])).to be false
+      end
+    end
+  end
 end

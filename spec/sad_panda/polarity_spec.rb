@@ -43,42 +43,6 @@ describe SadPanda::Polarity do
     end
   end
 
-  describe '#happy_emoticon?' do
-    context 'when words has a happy emoji' do
-      let(:object) { SadPanda::Polarity.new('I love cactuses. :)') }
-
-      it 'returns true' do
-        expect(object.send(:happy_emoticon?)).to be true
-      end
-    end
-
-    context 'when words does not have a happy emoji' do
-      let(:object) { SadPanda::Polarity.new('I love cactuses!') }
-
-      it 'returns true' do
-        expect(object.send(:happy_emoticon?)).to be false
-      end
-    end
-  end
-
-  describe '#sad_emoticon?' do
-    context 'when words has a sad emoji' do
-      let(:object) { SadPanda::Polarity.new('I dont love cactuses. :(') }
-
-      it 'returns true' do
-        expect(object.send(:sad_emoticon?)).to be true
-      end
-    end
-
-    context 'when words does not not have a sad emoji' do
-      let(:object) { SadPanda::Polarity.new('I dont love cactuses') }
-
-      it 'returns true' do
-        expect(object.send(:sad_emoticon?)).to be false
-      end
-    end
-  end
-
   describe '#score_emoticon_polarity' do
     context 'when words has a sad emoji' do
       let(:object) { SadPanda::Polarity.new('I am :(') }
