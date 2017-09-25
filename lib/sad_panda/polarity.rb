@@ -23,36 +23,6 @@ module SadPanda
 
     private
 
-    # Checks if words has a happy emoji
-    # def happy_emoticon?
-    #   # place emojies in the bank
-    #   # %w[:) :-) :\] :-\]].each do |emoji|
-    #   #   return true if words.include? emoji
-    #   # end
-
-    #   # false
-
-    #   words.include?(':)') ||
-    #     words.include?(':-)') ||
-    #     words.include?(':]') || words.include?(':-]')
-    # end
-
-    # # To count emojies
-    # # 'foo bar foo :) :)'.scan(/:\)/).count
-
-    # # Checks if words has a sad emoji
-    # def sad_emoticon?
-    #   # %w[:( :-( :\[ :-\[].each do |emoji|
-    #   #   return true if words.include? emoji
-    #   # end
-
-    #   # false
-
-    #   words.include?(':(') ||
-    #     words.include?(':-(') ||
-    #     words.include?(':[') || words.include?(':-[')
-    # end
-
     # Checks if words has happy or sad emoji and adds polarity for it
     def score_emoticon_polarity
       polarities << 5.0 if happy_emoticon?(words) && sad_emoticon?(words)
