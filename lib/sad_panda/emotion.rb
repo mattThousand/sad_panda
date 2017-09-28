@@ -43,14 +43,14 @@ module SadPanda
     # Increments the score of an emotion if the word exist
     # in that emotion bank
     def score_emotions(emotion, term, frequency)
-      return unless SadPanda::EmotionBank::Emotions[emotion].include?(term)
+      return unless SadPanda::Bank::EMOTIONS[emotion].include?(term)
 
       scores[emotion] += frequency
     end
 
     # Iterates all emotions for word in text
     def set_emotions(word, frequency)
-      SadPanda::EmotionBank::Emotions.keys.each do |emotion|
+      SadPanda::Bank::EMOTIONS.keys.each do |emotion|
         score_emotions(emotion, word, frequency)
       end
     end

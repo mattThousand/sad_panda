@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe SadPanda::EmotionBank do
-  let(:emotions) { SadPanda::EmotionBank::Emotions }
+describe SadPanda::Bank do
+  let(:emotions) { SadPanda::Bank::EMOTIONS }
 
-  describe 'EmotionBank module' do
+  describe 'EMOTIONS constant' do
     it 'returns a hash' do
       expect(emotions).to be_a Hash
     end
@@ -18,27 +18,27 @@ describe SadPanda::EmotionBank do
 
     context 'constants' do
       it 'returns an Array for SADNESS' do
-        expect(SadPanda::EmotionBank::SADNESS).to be_a Array
+        expect(SadPanda::Bank::SADNESS).to be_a Array
       end
 
       it 'returns an Array for JOY' do
-        expect(SadPanda::EmotionBank::JOY).to be_a Array
+        expect(SadPanda::Bank::JOY).to be_a Array
       end
 
       it 'returns an Array for ANGER' do
-        expect(SadPanda::EmotionBank::ANGER).to be_a Array
+        expect(SadPanda::Bank::ANGER).to be_a Array
       end
 
       it 'returns an Array for DISGUST' do
-        expect(SadPanda::EmotionBank::DISGUST).to be_a Array
+        expect(SadPanda::Bank::DISGUST).to be_a Array
       end
 
       it 'returns an Array for FEAR' do
-        expect(SadPanda::EmotionBank::FEAR).to be_a Array
+        expect(SadPanda::Bank::FEAR).to be_a Array
       end
 
       it 'returns an Array for SURPRISE' do
-        expect(SadPanda::EmotionBank::SURPRISE).to be_a Array
+        expect(SadPanda::Bank::SURPRISE).to be_a Array
       end
     end
   end

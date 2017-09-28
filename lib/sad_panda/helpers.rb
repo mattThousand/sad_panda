@@ -24,7 +24,7 @@ module SadPanda
 
     # Strips the words array of stop words
     def remove_stopwords_in(words)
-      words - SadPanda::Stopwords
+      words - SadPanda::Bank::STOPWORDS
     end
 
     # Removes all the unwated characters from the text

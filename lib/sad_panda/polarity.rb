@@ -33,7 +33,7 @@ module SadPanda
     # Appends polarities of words to array polarities
     def score_polarities_for(word_frequencies)
       word_frequencies.each do |word, frequency|
-        polarity = SadPanda::Polarities[word.to_sym]
+        polarity = SadPanda::Bank::POLARITIES[word.to_sym]
         polarities << (polarity * frequency.to_f) if polarity
       end
 
