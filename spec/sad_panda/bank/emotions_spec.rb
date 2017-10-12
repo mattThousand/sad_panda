@@ -13,7 +13,7 @@ describe SadPanda::Bank do
     end
 
     it 'has all the emotions as keys' do
-      expect(emotions.keys).to eq %i[anger disgust joy surprise fear sadness]
+      expect(emotions.keys).to eq [:anger, :disgust, :joy, :surprise, :fear, :sadness]
     end
 
     context 'constants' do

@@ -89,7 +89,7 @@ describe SadPanda do
     end
 
     it 'returns 5.0 for a neutral' do
-      expect(SadPanda.polarity('This is surprising')).to be 5.0
+      expect(SadPanda.polarity('This is surprising')).to eq 5.0
     end
   end
 end
