@@ -18,7 +18,7 @@ module SadPanda
 
       score_polarities_for(frequencies_for(words))
 
-      polarities.empty? ? 5.0 : (polarities.inject(0){ |sum,x| sum + x } / polarities.length)
+      polarities.empty? ? 5.0 : (polarities.inject(0){ |sum, x| sum + x } / polarities.length)
     end
 
     private

@@ -1,5 +1,6 @@
 # Has the polarity for all the words
 module SadPanda
+  # Holds the hardcoded data
   module Bank
     POLARITIES = { abandoned: 2.5, abandonment: 2.5, abandon: 2.5, abase: 0,
                   abasement: 0, abash: 0, abate: 2.5, abdicate: 2.5, aberration: 0,

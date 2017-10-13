@@ -1,4 +1,5 @@
 module SadPanda
+  # Holds the hardcoded data
   module Bank
     # common english words
     STOPWORDS = %w{i a a's able about above according accordingly across actually after
