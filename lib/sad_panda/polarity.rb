@@ -25,9 +25,12 @@ module SadPanda
 
     # Checks if words has happy or sad emoji and adds polarity for it
     def score_emoticon_polarity
-      polarities << 5.0 if happy_emoticon?(words) && sad_emoticon?(words)
-      polarities << 8.0 if happy_emoticon?(words)
-      polarities << 2.0 if sad_emoticon?(words)
+      happy = happy_emoticon?(words)
+      sad = sad_emoticon?(words)
+
+      polarities << 5.0 if happy && sad
+      polarities << 8.0 if happy
+      polarities << 2.0 if sad
     end
 
     # Appends polarities of words to array polarities

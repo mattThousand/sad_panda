@@ -56,9 +56,12 @@ module SadPanda
     end
 
     def score_emoticons
-      scores[:ambiguous] += 1 if happy_emoticon?(words) && sad_emoticon?(words)
-      scores[:joy] += 1 if happy_emoticon?(words)
-      scores[:sadness] += 1 if sad_emoticon?(words)
+      happy = happy_emoticon?(words)
+      sad = sad_emoticon?(words)
+
+      scores[:ambiguous] += 1 if happy && sad
+      scores[:joy] += 1 if happy
+      scores[:sadness] += 1 if sad
     end
 
     # Logic to score all unique words in the text
