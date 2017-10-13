@@ -5,7 +5,7 @@ module SadPanda
   class Polarity
     include Helpers
 
-    attr_accessor :words, :polarities
+    attr_reader :words, :polarities
 
     def initialize(text)
       @words = words_in(text)

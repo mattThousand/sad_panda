@@ -5,7 +5,7 @@ module SadPanda
   class Emotion
     include Helpers
 
-    attr_accessor :words, :scores
+    attr_reader :words, :scores
 
     def initialize(text)
       @words = words_in(text)
