@@ -27,21 +27,26 @@ module SadPanda
       words - SadPanda::Bank::STOPWORDS
     end
 
-    # Removes all the unwated characters from the text
-    def words_in(text)
-      # capturing all emojies
-      emojies = (sad_emojies + happy_emojies).map do |emoji|
+    # Captures and returns emojies in the text
+    def emojies_in(text)
+      (sad_emojies + happy_emojies).map do |emoji|
         text.scan(emoji)
       end.flatten
+    end
 
-      text.downcase!
+    # Removing non ASCII characters from text
+    def sanitize(text)
       text.gsub!(/[^a-z ]/i, '')
-
       text.gsub!(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, '')
       text.gsub!(/(?=\w*h)(?=\w*t)(?=\w*t)(?=\w*p)\w*/, '')
       text.gsub!(/\s\s+/, ' ')
 
-      text.split + emojies
+      text.downcase    
+    end
+
+    # Removes all the unwated characters from the text
+    def words_in(text)
+      emojies_in(text) + sanitize(text).split
     end
 
     # Checks if words has a happy emoji

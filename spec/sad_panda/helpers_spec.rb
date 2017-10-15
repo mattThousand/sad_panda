@@ -31,6 +31,18 @@ describe SadPanda::Helpers do
     end
   end
 
+  describe '#emojies_in' do
+    it 'returns sad and happy emojies from the text as an array' do
+      expect(helpers.emojies_in('I am :] :). But :( as well.')).to eq [':(', ':)', ':]']
+    end
+  end
+
+  describe '#sanitize' do
+    it 'returns text with only english alphabets' do
+      expect(helpers.sanitize('I am :] :). But :( as well.')).to eq 'i am but as well'
+    end
+  end
+
   describe '#happy_emoticon?' do
     context 'when words has a happy emoji' do
       it 'returns true' do
