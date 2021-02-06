@@ -44,7 +44,7 @@ module SadPanda
       text.downcase    
     end
 
-    # Removes all the unwated characters from the text
+    # Removes all the unwanted characters from the text
     def words_in(text)
       emojies_in(text) + sanitize(text).split
     end

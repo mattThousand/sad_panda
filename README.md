@@ -32,7 +32,8 @@ Or install it yourself as:
 
 		sad_panda = SadPanda::Emotion.new('my lobster collection makes me happy!')
 		sad_panda.call
-		sad_pands.scores = {:anger=>0, :disgust=>0, :joy=>1, :surprise=>0, :fear=>0, :sadness=>0, :ambiguous=>0}
+		sad_panda.scores = {:anger=>0, :disgust=>0, :joy=>1, :surprise=>0, 
+		:fear=>0, :sadness=>0, :ambiguous=>0}
 
 		sad_panda.joy => 1
 		sad_panda.fear => 0
