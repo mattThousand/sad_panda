@@ -37,14 +37,14 @@ module SadPanda
     # Removing non ASCII characters from text
     def sanitize(text)
       text.gsub!(/[^a-z ]/i, '')
-      text.gsub!(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, '')
+      text.gsub!(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w_-]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/, '')
       text.gsub!(/(?=\w*h)(?=\w*t)(?=\w*t)(?=\w*p)\w*/, '')
       text.gsub!(/\s\s+/, ' ')
 
       text.downcase    
     end
 
-    # Removes all the unwated characters from the text
+    # Removes all the unwanted characters from the text
     def words_in(text)
       emojies_in(text) + sanitize(text).split
     end
